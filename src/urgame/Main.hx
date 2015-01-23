@@ -1,6 +1,10 @@
 package urgame;
 
+import flambe.animation.Ease;
 import flambe.Entity;
+import flambe.scene.Director;
+import flambe.scene.Scene;
+import flambe.scene.SlideTransition;
 import flambe.System;
 import flambe.asset.AssetPack;
 import flambe.asset.Manifest;
@@ -25,11 +29,12 @@ class Main
         // Add a solid color background
         var background = new FillSprite(0x202020, System.stage.width, System.stage.height);
         System.root.addChild(new Entity().add(background));
-
-        // Add a plane that moves along the screen
-        var plane = new ImageSprite(pack.getTexture("plane"));
-        plane.x._ = 30;
-        plane.y.animateTo(200, 6);
-        System.root.addChild(new Entity().add(plane));
+		
+		System.root.add( new Kernel( pack ) );
+		// Add a plane that moves along the screen
+        //var plane = new ImageSprite(pack.getTexture("plane"));
+        //plane.x._ = 30;
+        //plane.y.animateTo(200, 6);
+        //System.root.addChild(new Entity().add(plane));
     }
 }
