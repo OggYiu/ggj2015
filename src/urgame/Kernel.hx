@@ -62,6 +62,10 @@ class Kernel extends Component
 		//Console.log( "key : " + event.key );
 		if ( event.key == Key.Q ) {
 			toggleDebugger();
+		} else if ( event.key == Key.A ) {
+			Game.instance().gotoPreviousPage();
+		} else if ( event.key == Key.S ) {
+			Game.instance().gotoNextPage();
 		}
 	}
 	

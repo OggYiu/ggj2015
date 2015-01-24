@@ -52,7 +52,7 @@ class Game
 		gotoNextPage();
 	}
 	
-	private function gotoPreviousPage() : Void {
+	public function gotoPreviousPage() : Void {
 		--pageIndex_;
 		if ( pageIndex_ < 0 ) {
 			pageIndex_ = pages_.length -1;
@@ -63,7 +63,7 @@ class Game
 		gotoPage( pageIndex_ );
 	}
 	
-	private function gotoNextPage() : Void {
+	public function gotoNextPage() : Void {
 		++pageIndex_;
 		if ( pageIndex_ < 0 ) {
 			pageIndex_ = pages_.length -1;
