@@ -10,8 +10,7 @@ import flambe.System;
  */
 class CircleSprite extends ImageSprite
 {
-
-	public function new( l_radius : Int, l_color : Int ) 
+	public function new( l_radius : Int, l_color : Int, l_thickness : Int = 2 ) 
 	{
 		var x0 : Int = l_radius;
 		var y0 : Int = l_radius;
@@ -21,14 +20,14 @@ class CircleSprite extends ImageSprite
 
 		var texture : Texture = System.renderer.createTexture( l_radius * 2 + 1, l_radius * 2 + 1 );
 		while( x >= y ) {
-			texture.graphics.fillRect( l_color, x + x0, y + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, y + x0, x + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, -x + x0, y + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, -y + x0, x + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, -x + x0, -y + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, -y + x0, -x + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, x + x0, -y + y0, 1, 1 );
-			texture.graphics.fillRect( l_color, y + x0, -x + y0, 1, 1 );
+			texture.graphics.fillRect( l_color, x + x0, y + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, y + x0, x + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, -x + x0, y + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, -y + x0, x + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, -x + x0, -y + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, -y + x0, -x + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, x + x0, -y + y0, l_thickness, l_thickness );
+			texture.graphics.fillRect( l_color, y + x0, -x + y0, l_thickness, l_thickness );
 			y++;
 			
 			if ( radiusError < 0 ) {

@@ -48,6 +48,8 @@ class CollisionMgr extends Component
 	override public function onUpdate( dt : Float ) {
 		super.onUpdate( dt );
 		
+		//trace( "collision mgr" );	
+		
 		for ( shape1 in shapes_ ) {
 			for ( shape2 in shapes_ ) {
 				if ( shape1 == shape2 ) {
@@ -67,8 +69,10 @@ class CollisionMgr extends Component
 						continue;
 					}
 					
-					collisionBox1.onCollide( collisionBox2 );
-					collisionBox2.onCollide( collisionBox1 );
+					collisionBox1.collide.emit( collisionBox2 );
+					collisionBox2.collide.emit( collisionBox1 );
+					//collisionBox1.onCollide( collisionBox2 );
+					//collisionBox2.onCollide( collisionBox1 );
 				}
 			}
 		}

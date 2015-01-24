@@ -1,27 +1,23 @@
 package page;
-import flambe.asset.AssetPack;
+
+import components.GameEntity;
 import flambe.Component;
-import flambe.display.Font;
-import flambe.Disposer;
+import flambe.display.FillSprite;
+import flambe.display.ImageSprite;
+import flambe.display.TextSprite;
 import flambe.Entity;
 import flambe.input.KeyboardEvent;
 import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
-import flambe.System;
-import urgame.Game;
-import urgame.Kernel;
+import urgame.Global;
 
-/**
- * ...
- * @author ragbit
- */
 class Template_GamePage extends GamePage
 {
-	public function new( l_parent : Entity ) 
+	public function new(l_parent:Entity) 
 	{
-		super( l_parent );
+		super(l_parent);
 	}
-	
+		
 	override public function onAdded() 
 	{
 		super.onAdded();

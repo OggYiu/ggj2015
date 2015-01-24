@@ -1,8 +1,8 @@
 package urgame;
 import flambe.display.ImageSprite;
 import flambe.display.Texture;
-import flambe.math.Point;
 import flambe.System;
+import hxcollision.math.Vector;
 
 /**
  * ...
@@ -10,7 +10,7 @@ import flambe.System;
  */
 class PolygonSprite extends ImageSprite
 {
-	public function new( l_vertices : Array<Point>, l_color : Int, l_thickness : Int ) 
+	public function new( l_vertices : Array<Vector>, l_color : Int, l_thickness : Int = 1 ) 
 	{
 		var i : Int = 0;
 		var maxX : Float = 0;

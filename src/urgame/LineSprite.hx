@@ -4,6 +4,7 @@ import flambe.display.ImageSprite;
 import flambe.display.Texture;
 import flambe.math.Point;
 import flambe.System;
+import hxcollision.math.Vector;
 
 /**
  * ...
@@ -11,11 +12,10 @@ import flambe.System;
  */
 class LineSprite extends ImageSprite
 {
-
-	public function new( l_point1 : Point, l_point2 : Point, l_color : Int, l_thickness : Int ) 
+	public function new( l_point1 : Vector, l_point2 : Vector, l_color : Int, l_thickness : Int ) 
 	{
-		var point1 : Point = l_point1.x < l_point2.x? l_point1 : l_point2;
-		var point2 : Point = l_point1.x < l_point2.x? l_point2 : l_point1;
+		var point1 : Vector = l_point1.x < l_point2.x? l_point1 : l_point2;
+		var point2 : Vector = l_point1.x < l_point2.x? l_point2 : l_point1;
 		
 		var maxX : Float = point1.x > point2.x? point1.x : point2.x;
 		var maxY : Float = point1.y > point2.y? point1.y : point2.y;
@@ -26,11 +26,11 @@ class LineSprite extends ImageSprite
 		super(texture);
 	}
 	
-	public static function drawLine( l_texture : Texture, l_point1 : Point, l_point2 : Point, l_color : Int, l_thickness : Int ) : Void {
-		var targetPoint1 : Point = l_point1.x < l_point2.x? l_point1 : l_point2;
-		var targetPoint2 : Point = l_point1.x < l_point2.x? l_point2 : l_point1;
-		var point1 : Point = new Point( targetPoint1.x, targetPoint1.y );
-		var point2 : Point = new Point( targetPoint2.x, targetPoint2.y );
+	public static function drawLine( l_texture : Texture, l_point1 : Vector, l_point2 : Vector, l_color : Int, l_thickness : Int ) : Void {
+		var targetPoint1 : Vector = l_point1.x < l_point2.x? l_point1 : l_point2;
+		var targetPoint2 : Vector = l_point1.x < l_point2.x? l_point2 : l_point1;
+		var point1 : Vector = new Vector( targetPoint1.x, targetPoint1.y );
+		var point2 : Vector = new Vector( targetPoint2.x, targetPoint2.y );
 		point2.x -= point1.x;
 		point2.y -= point1.y;
 		point1.x = 0;
@@ -44,14 +44,14 @@ class LineSprite extends ImageSprite
 		l_texture.graphics.restore();
 	}
 	
-	public static function getDistance(startingPoint:Point, endingPoint:Point):Float
+	public static function getDistance(startingPoint:Vector, endingPoint:Vector):Float
 	{
 		var d:Float = Math.pow((endingPoint.x - startingPoint.x), 2) + Math.pow((endingPoint.y - startingPoint.y), 2);
 		d = Math.pow(d, 0.5);
 		return d;
 	}
 	
-	public static function getAngle(startingPoint:Point, endingPoint:Point):Float
+	public static function getAngle(startingPoint:Vector, endingPoint:Vector):Float
 	{
 		var x:Float = endingPoint.x - startingPoint.x;
 		var y:Float = endingPoint.y - startingPoint.y;

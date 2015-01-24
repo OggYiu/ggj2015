@@ -26,18 +26,18 @@ class Kernel extends Component
 	public function new() {
 		super();
 		
-		this.collisionMgr = new CollisionMgr();
+		Console.start();
 	}
 	
 	public function create( l_pack : AssetPack ) : Kernel {
 		this.pack = l_pack;
 		this.font = new Font( this.pack, "font" );
+		//Console.log( "this.font: " + this.font );
 		
 		System.keyboard.up.connect( onKeyUp );
 		
 		//System.stage.requestFullscreen();
 		
-		Console.start();
 		//Console.defaultPrinter.attach();
 		//Console.log( "onAdded" );
 		
@@ -47,6 +47,9 @@ class Kernel extends Component
 	override public function onAdded() 
 	{
 		super.onAdded();
+		
+		this.collisionMgr = new CollisionMgr();
+		System.root.add( this.collisionMgr );
 		
 		System.root.add( director_ = new Director() );
 		Game.instance().create();
@@ -62,9 +65,9 @@ class Kernel extends Component
 		//Console.log( "key : " + event.key );
 		if ( event.key == Key.Q ) {
 			toggleDebugger();
-		} else if ( event.key == Key.A ) {
+		} else if ( event.key == Key.Left ) {
 			Game.instance().gotoPreviousPage();
-		} else if ( event.key == Key.S ) {
+		} else if ( event.key == Key.Right ) {
 			Game.instance().gotoNextPage();
 		}
 	}

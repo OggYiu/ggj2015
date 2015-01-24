@@ -1,7 +1,6 @@
 package components;
 
 import flambe.Component;
-import flambe.display.ImageSprite;
 import flambe.display.Sprite;
 import hxcollision.math.Vector;
 
@@ -14,50 +13,54 @@ class GameEntity extends Component
 	public var position( get_position, set_position ) : Vector;
 	public var x( get_x, set_x ) : Float;
 	public var y( get_y, set_y ) : Float;
-	public var sprite( get_sprite, set_sprite ) : ImageSprite;
-	//public var canDrag( 
-	
-	private var sprite_ : ImageSprite = null;
+	public var sprite( get_sprite, null ) : Sprite;
+	public var collisionBox( get_collisionBox, null ) : CollisionBox;
 	private var position_ : Vector = null;
 	
-	public function new( l_x, l_y, s : ImageSprite ) {
+	public function new() {
 		position_ = new Vector();
-		this.x = l_x;
-		this.y = l_y;
-		this.sprite = s;
 	}
 	
-	private function get_sprite() : ImageSprite {
+	override public function onAdded() 
+	{
+		super.onAdded();
+	}
+	
+	override public function onUpdate(dt:Float) 
+	{
+		super.onUpdate(dt);
+		
+		var modX : Float = 0;
+		var modY : Float = 0;
+		if ( this.sprite != null ) {
+			position_.x = this.sprite.x._;
+			position_.y = this.sprite.y._;
+			//Console.log( "pos: " + this.x + ", " + this.y );
+		}
+		
+		if ( this.collisionBox != null ) {
+			this.collisionBox.x = this.position_.x + this.collisionBox.offsetX;
+			this.collisionBox.y = this.position_.y + this.collisionBox.offsetY;
+		}
+	}
+	
+	private function get_collisionBox() : CollisionBox {
 		if ( this.owner == null ) {
 			return null;
 		}
 		
-		var s = this.owner.get( ImageSprite );
-		if ( s == null ) {
-			return null;
-		}
-		
-		if ( sprite_ != s ) {
-			sprite_ = s;
-		}
-		
-		return sprite_;
+		var box : CollisionBox = this.owner.get( CollisionBox );
+		return box;
 	}
 	
-	private function set_sprite( v : ImageSprite ) : ImageSprite {
-		if ( v == null ) {
+	private function get_sprite() : Sprite {
+		if ( this.owner == null ) {
 			return null;
 		}
 		
-		if ( sprite_ != v ) {
-			sprite_ = v;
-			sprite_.x._ = position_.x;
-			sprite_.y._ = position_.y;	
-			
-			//Console.log( "animat" );
-			//sprite_.x.animateTo( 200, 0 );
-		}
-		return sprite_;
+		var s : Sprite = this.owner.get( Sprite );
+		s.centerAnchor();
+		return s;
 	}
 	
 	private function get_position() : Vector {
@@ -110,35 +113,23 @@ class GameEntity extends Component
 	}
 	
 	private function setSpriteX( l_x : Float ) : Void {
-		var s : ImageSprite = this.sprite;
+		var s : Sprite = this.sprite;
 		if ( s != null ) {
 			s.x._ = l_x;
 		}
 	}
 	
 	private function setSpriteY( l_y : Float ) : Void {
-		var s : ImageSprite = this.sprite;
+		var s : Sprite = this.sprite;
 		if ( s != null ) {
 			s.y._ = l_y;
 		}
 	}
 
-	private function getSprite() : ImageSprite {
+	private function getSprite() : Sprite {
 		if ( this.owner == null ) {
 			return null;
 		}
-		return this.owner.get( ImageSprite );
-	}
-	
-	override public function onUpdate(dt:Float) 
-	{
-		super.onUpdate(dt);
-		
-		if ( this.sprite != null ) {
-			position_.x = this.sprite.x._;
-			position_.y = this.sprite.y._;
-			
-			//Console.log( "pos: " + this.x + ", " + this.y );
-		}
+		return this.owner.get( Sprite );
 	}
 }
