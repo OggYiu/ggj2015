@@ -106,8 +106,9 @@ class CollisionBox extends Component
 	
 	private function set_x( v : Float ) : Float {
 		var mod : Float = this.type == CollisionBoxType.circle? radius_ : 0;
+		//var mod : Float = 0;
 		if ( this.sprite != null ) {
-			this.sprite.x._ = v + mod;
+			this.sprite.x._ = v;
 		}
 		this.shape_.x = v + mod;
 		return v;
@@ -119,8 +120,9 @@ class CollisionBox extends Component
 	
 	private function set_y( v : Float ) : Float {
 		var mod : Float = this.type == CollisionBoxType.circle? radius_ : 0;
+		//var mod : Float = 0;
 		if ( this.sprite != null ) {
-			this.sprite.y._ = v + mod;
+			this.sprite.y._ = v;
 		}
 		return ( this.shape_.y = v + mod );
 	}
