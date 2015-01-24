@@ -65,18 +65,18 @@ class GamePage_Stage_1 extends GamePage
 	{
 		super.onAdded();
 		
-		backgroupGalaxy = new ImageSprite(pack.getTexture("2_galaxy"));
+		backgroupGalaxy = new ImageSprite(pack.getTexture("2/2_galaxy"));
 		backgroupGalaxy.centerAnchor();
 		backgroupGalaxy.x._ = x1() + backgroupGalaxy.getNaturalWidth() / 2;
 		backgroupGalaxy.y._ = y1() + backgroupGalaxy.getNaturalHeight() / 2 + 50;
 		this.entityLayer.addChild(new Entity().add(backgroupGalaxy));
 		
-		backgroupCubes = new ImageSprite(pack.getTexture("2_cubes"));
+		backgroupCubes = new ImageSprite(pack.getTexture("2/2_cubes"));
 		backgroupCubes.x._ = x1();
 		backgroupCubes.y._ = y1();
 		this.entityLayer.addChild(new Entity().add(backgroupCubes));
 		
-		backgroupBrick1 = new ImageSprite(pack.getTexture("2_brick1"));
+		backgroupBrick1 = new ImageSprite(pack.getTexture("2/2_brick1"));
 		backgroupBrick1.centerAnchor();
 		backgroupBrick1.x._ = x1() + 100;
 		backgroupBrick1.y._ = y1() + 100;
@@ -85,7 +85,7 @@ class GamePage_Stage_1 extends GamePage
 		
 		blackholeEntity = new Entity();
 		
-		blackhole = new ImageSprite(pack.getTexture("2_hole"));
+		blackhole = new ImageSprite(pack.getTexture("2/2_hole"));
 		blackhole.centerAnchor();
 		blackhole.x._ = x1() + 270;
 		blackhole.y._ = y1() + 410;
@@ -110,7 +110,7 @@ class GamePage_Stage_1 extends GamePage
 		blackholeEntity.add(script);
 		this.entityLayer.addChild(blackholeEntity);
 		
-		initControllableTarget("2_egggface", 300, 200);
+		initControllableTarget("2/2_egggface", 300, 200);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 50, buttonClickRotateClockwise);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 50, buttonClickRotateAntiClockwise);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 150, buttonClickScaleUpX);
