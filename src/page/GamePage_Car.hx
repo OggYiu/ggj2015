@@ -17,6 +17,7 @@ import flambe.script.Repeat;
 import hxcollision.CollisionData;
 import hxcollision.math.Matrix;
 import hxcollision.math.Vector;
+import urgame.Game;
 import urgame.Global;
 
 class GamePage_Car extends GamePage
@@ -32,6 +33,7 @@ class GamePage_Car extends GamePage
 	private static var bound2 : Float = 433 + controllerStartY;
 				
 	private var car_ : GameEntity = null;
+	private var cake_ : GameEntity = null;
 	private var turnRight_ : Bool = false;
 	private var turnLeft_ : Bool = false;
 	private var moveForward_ : Bool = false;
@@ -89,7 +91,48 @@ class GamePage_Car extends GamePage
 			this.entityLayer.addChild( e );
 		}
 		
+		{
+			var e : Entity = new Entity();
+			
+			this.cake_ = new GameEntity();
+			e.add( this.cake_ );
+			
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "cake" ) );
+			e.add( image );
+			image.x._ = x1() + Math.random() * this.pageWidth();
+			image.y._ = x1() + Math.random() * this.pageHeight();
+			
+			var collisionBox : CollisionBox = new CollisionBox();
+			collisionBox.createCircle( image.getNaturalWidth() / 2 );
+			this.disposer.add( collisionBox.collide.connect( function( collisionBox : CollisionBox, data : CollisionData ) {
+				if ( collisionBox.owner == null ) {
+					return;
+				}
+				
+				if ( this.car_.owner == null ) {
+					return;
+				}
+				
+				if ( collisionBox.owner == this.car_.owner ) {
+					gameWin();
+				}
+			} ) );
+			e.add( collisionBox );
+			
+			if ( DRAW_DEBUG_BOX ) {
+				var e1 : Entity = new Entity();
+				e1.add( collisionBox.sprite );
+				this.overlay.addChild( e1 );
+			}
+			
+			this.entityLayer.addChild( e );
+		}
+		
 		addObstacle( 10 );
+	}
+	
+	private function gameWin() : Void {
+		Game.instance().gotoNextPage();
 	}
 	
 	private function initRScreen() : Void {

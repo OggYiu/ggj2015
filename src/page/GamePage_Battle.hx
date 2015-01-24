@@ -1,5 +1,6 @@
 package page ;
 import hxcollision.CollisionData;
+import urgame.Game;
 
 import components.CollisionBox;
 import components.GameEntity;
@@ -30,6 +31,12 @@ class GamePage_Battle extends GamePage
 	
 	private var player1( default, default ) : GameEntity = null;
 	private var player2( default, default ) : GameEntity = null;
+	private var horse1( default, default ) : GameEntity = null;
+	private var horse2( default, default ) : GameEntity = null;
+	private var horse1Ox_ : Float = 0;
+	private var horse1Oy_ : Float = 0;
+	private var horse2Ox_ : Float = 0;
+	private var horse2Oy_ : Float = 0;
 	private var moveKeyUp1_ : Bool = false;
 	private var moveKeyDown1_ : Bool = false;
 	private var moveKeyUp2_ : Bool = false;
@@ -47,10 +54,10 @@ class GamePage_Battle extends GamePage
 		super.onAdded();
 		
 		var background = new ImageSprite(pack.getTexture("4/4_background"));
-		background.centerAnchor();
-		background.scaleX._ = 1.04347826087;
-		background.x._ = x1() + background.getNaturalWidth() * background.scaleX._ / 2;
-		background.y._ = y1() + background.getNaturalHeight() / 2;
+		background.scaleX._ = this.screenWidth / background.getNaturalWidth();
+		background.scaleY._ = this.screenHeight / background.getNaturalHeight();
+		background.x._ = 0;
+		background.y._ = 0;
 		this.entityLayer.addChild(new Entity().add(background));
 		
 		var egg1 = new ImageSprite(pack.getTexture("4/4_egg1"));
@@ -87,6 +94,33 @@ class GamePage_Battle extends GamePage
 		basket.x._ = x1() + 750;
 		basket.y._ = y1() + 470;
 		this.entityLayer.addChild(new Entity().add(basket));
+		
+		
+		{
+			var e : Entity = new Entity();
+			e.add( this.horse1 = new GameEntity() );
+			
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_lefthorse" ) );
+			e.add( image );
+			
+			this.horse1.x = 150;
+			this.horse1.y = y1() + this.pageHeight() / 2 + 100;
+			
+			this.entityLayer.addChild( e );
+		}
+		
+		{
+			var e : Entity = new Entity();
+			e.add( this.horse2 = new GameEntity() );
+			
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_righthorse" ) );
+			e.add( image );
+			
+			this.horse2.x = 1150;
+			this.horse2.y = y1() + this.pageHeight() / 2 + 100;
+			
+			this.entityLayer.addChild( e );
+		}
 		
 		{
 			this.player1 = new GameEntity();
@@ -143,6 +177,11 @@ class GamePage_Battle extends GamePage
 				this.entityLayer.addChild( e1 );
 			}
 		}
+		
+		this.horse1Ox_ = this.player1.x - this.horse1.x;
+		this.horse1Oy_ = this.player1.y - this.horse1.y;
+		this.horse2Ox_ = this.player2.x - this.horse2.x;
+		this.horse2Oy_ = this.player2.y - this.horse2.y;
 	}
 	
 	private function createCloud(imagePath : String, x : Float, y : Float)
@@ -178,16 +217,20 @@ class GamePage_Battle extends GamePage
 		
 		if ( moveKeyUp1_ ) {
 			player1.y -= dt * SPEED;
+			horse1.y = player1.y - horse1Oy_;
 		}
 		if ( moveKeyDown1_ ) {
 			player1.y += dt * SPEED;
+			horse1.y = player1.y - horse1Oy_;
 		}
 		
 		if ( moveKeyUp2_ ) {
 			player2.y -= dt * SPEED;
+			horse2.y = player2.y - horse2Oy_;
 		}
 		if ( moveKeyDown2_ ) {
 			player2.y += dt * SPEED;
+			horse2.y = player2.y - horse2Oy_;
 		}
 	}
 	
@@ -305,6 +348,7 @@ class GamePage_Battle extends GamePage
 	}
 	
 	private function gameEnd( l_player : GameEntity ) : Void {
+		Game.instance().gotoNextPage();
 		
 	}
 }
