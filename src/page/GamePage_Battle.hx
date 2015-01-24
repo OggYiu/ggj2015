@@ -16,6 +16,12 @@ import flambe.input.PointerEvent;
 import hxcollision.math.Vector;
 import urgame.Global;
 import urgame.Projectile;
+import flambe.script.AnimateTo;
+import flambe.script.Parallel;
+import flambe.script.Repeat;
+import flambe.script.Script;
+import flambe.script.Sequence;
+import flambe.animation.Ease;
 
 class GamePage_Battle extends GamePage
 {
@@ -40,13 +46,55 @@ class GamePage_Battle extends GamePage
 	{
 		super.onAdded();
 		
+		var background = new ImageSprite(pack.getTexture("4/4_background"));
+		background.centerAnchor();
+		background.scaleX._ = 1.04347826087;
+		background.x._ = x1() + background.getNaturalWidth() * background.scaleX._ / 2;
+		background.y._ = y1() + background.getNaturalHeight() / 2;
+		this.entityLayer.addChild(new Entity().add(background));
+		
+		var egg1 = new ImageSprite(pack.getTexture("4/4_egg1"));
+		egg1.setScaleXY(0.7, 0.7);
+		egg1.centerAnchor();
+		egg1.x._ = x1() + 730;
+		egg1.y._ = y1() + 290;
+		var egg1Entity = new Entity();
+		egg1Entity.add(egg1);
+		var script : Script = new Script();
+			script.run(
+				new Repeat(
+				new Sequence(
+				[
+					new AnimateTo( egg1.y, egg1.y._ + 220, 2.5, Ease.circIn ),
+					new AnimateTo( egg1.y, y1() + 290, 0, Ease.circIn )
+				])
+				));
+		egg1Entity.add(script);
+		this.entityLayer.addChild(egg1Entity);
+		
+		createCloud("4/4_cloud3", 710, 300);
+		
+		createCloud("4/4_cloud5", 350, 200);
+		
+		createCloud("4/4_cloud1", 150, 180);
+		
+		createCloud("4/4_cloud2", 990, 220);
+		
+		createCloud("4/4_cloud4", 920, 100);
+		
+		var basket = new ImageSprite(pack.getTexture("4/4_basket"));
+		basket.centerAnchor();
+		basket.x._ = x1() + 750;
+		basket.y._ = y1() + 470;
+		this.entityLayer.addChild(new Entity().add(basket));
+		
 		{
 			this.player1 = new GameEntity();
 			
 			var e : Entity = new Entity();
 			e.add( ( this.player1 = new GameEntity() ));
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "battle_player1" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_humpty_left_witharm&leg" ) );
 			e.add( image );
 			
 			this.player1.x = x1() + image.getNaturalWidth() / 2;
@@ -73,7 +121,7 @@ class GamePage_Battle extends GamePage
 			var e : Entity = new Entity();
 			e.add( ( this.player2 = new GameEntity() ));
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "battle_player2" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_humpty_right_witharm&leg" ) );
 			e.add( image );
 			
 			this.player2.x = x2() + this.pageWidth() - image.getNaturalWidth() / 2;
@@ -95,6 +143,33 @@ class GamePage_Battle extends GamePage
 				this.entityLayer.addChild( e1 );
 			}
 		}
+	}
+	
+	private function createCloud(imagePath : String, x : Float, y : Float)
+	{
+		var cloud3 = new ImageSprite(pack.getTexture(imagePath));
+		cloud3.centerAnchor();
+		cloud3.alpha._ = 0.9;
+		cloud3.x._ = x1() + x;
+		cloud3.y._ = y1() + y;
+		var cloud3Entity = new Entity();
+		cloud3Entity.add(cloud3);
+		var script : Script = new Script();
+			script.run(
+				new Repeat(
+				new Sequence(
+				[
+					new Parallel( [
+					new AnimateTo( cloud3.scaleX, cloud3.scaleX._ * 1.01, 0.8, Ease.circIn ),
+					new AnimateTo( cloud3.scaleY, cloud3.scaleY._ * 1.01, 0.8, Ease.circIn )]),
+					
+					new Parallel( [
+					new AnimateTo( cloud3.scaleX, cloud3.scaleX._ / 1.01, 0.8, Ease.circIn ),
+					new AnimateTo( cloud3.scaleY, cloud3.scaleY._ / 1.01, 0.8, Ease.circIn )])
+				])
+				));
+		cloud3Entity.add(script);
+		this.entityLayer.addChild(cloud3Entity);
 	}
 	
 	override public function onUpdate(dt:Float) 
@@ -149,7 +224,7 @@ class GamePage_Battle extends GamePage
 			var projectile : Projectile = new Projectile();
 			e.add( projectile );
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "ball1" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_weapon1" ) );
 			e.add( image );
 			image.x._ = player1.x + image.getNaturalWidth();
 			image.y._ = player1.y;
@@ -194,7 +269,7 @@ class GamePage_Battle extends GamePage
 			var projectile : Projectile = new Projectile();
 			e.add( projectile );
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "ball2" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_weapon3" ) );
 			e.add( image );
 			image.x._ = player2.x - image.getNaturalWidth();
 			image.y._ = player2.y;
