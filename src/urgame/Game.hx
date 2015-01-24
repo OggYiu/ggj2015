@@ -48,7 +48,7 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_main, page_find];
+		pages_ = [page_stage_1, page_main, page_find];
 		gotoNextPage();
 	}
 	
@@ -84,6 +84,20 @@ class Game
 		{
 			var e : Entity = new Entity();
 			var page : GamePage_Main = new GamePage_Main( e );
+			e.add( page );
+			
+			scene.addChild( e );
+		}
+		
+		return scene;
+	}
+	
+	public function page_stage_1() : Entity {
+		var scene : Entity = new Entity().add( new Scene() );
+		
+		{
+			var e : Entity = new Entity();
+			var page : GamePage_Stage_1 = new GamePage_Stage_1( e );
 			e.add( page );
 			
 			scene.addChild( e );
