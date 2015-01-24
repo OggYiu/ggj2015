@@ -1,18 +1,30 @@
 package page ;
+import flambe.animation.Ease;
 import flambe.asset.AssetPack;
 import flambe.Component;
 import flambe.display.Font;
 import flambe.display.ImageSprite;
+import flambe.display.Sprite;
+import flambe.display.TextSprite;
 import flambe.display.Texture;
 import flambe.Disposer;
 import flambe.Entity;
 import flambe.input.KeyboardEvent;
 import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
+import flambe.math.Rectangle;
+import flambe.script.AnimateTo;
+import flambe.script.Parallel;
+import flambe.script.Repeat;
+import flambe.script.Script;
+import flambe.script.Sequence;
 import flambe.System;
+import flambe.util.PackageLog;
+import flash.errors.IllegalOperationError;
 import gui.GUI_Button;
 import urgame.Game;
 import urgame.Kernel;
+import urgame.RectSprite;
 
 /**
  * ...
@@ -22,7 +34,17 @@ class GamePage_Stage_1 extends GamePage
 {
 	private var MoveSpeed : Float = 350;
 	
-	private var controllableTarget : ImageSprite = null;	
+	private var controllableTarget : ImageSprite = null;
+	private var backgroupGalaxy : ImageSprite = null;
+	private var backgroupCubes : ImageSprite = null;
+	private var blackhole : ImageSprite = null;
+	private var blackholeEntity : Entity = null;
+	private var controllableTargetEntity : Entity = null;
+	
+	private var backgroupBrick1 : ImageSprite = null;
+	private var backgroupBrick2 : ImageSprite = null;
+	private var backgroupBrick3 : ImageSprite = null;
+	
 	private var RotateClockwise : Bool = false;
 	private var RotateAntiClockwise : Bool = false;
 	private var ScaleUpX : Bool = false;
@@ -43,7 +65,52 @@ class GamePage_Stage_1 extends GamePage
 	{
 		super.onAdded();
 		
-		initControllableTarget("plane", 300, 300);
+		backgroupGalaxy = new ImageSprite(pack.getTexture("2_galaxy"));
+		backgroupGalaxy.centerAnchor();
+		backgroupGalaxy.x._ = x1() + backgroupGalaxy.getNaturalWidth() / 2;
+		backgroupGalaxy.y._ = y1() + backgroupGalaxy.getNaturalHeight() / 2 + 50;
+		this.entityLayer.addChild(new Entity().add(backgroupGalaxy));
+		
+		backgroupCubes = new ImageSprite(pack.getTexture("2_cubes"));
+		backgroupCubes.x._ = x1();
+		backgroupCubes.y._ = y1();
+		this.entityLayer.addChild(new Entity().add(backgroupCubes));
+		
+		backgroupBrick1 = new ImageSprite(pack.getTexture("2_brick1"));
+		backgroupBrick1.centerAnchor();
+		backgroupBrick1.x._ = x1() + 100;
+		backgroupBrick1.y._ = y1() + 100;
+		this.entityLayer.addChild(new Entity().add(backgroupBrick1));
+		
+		
+		blackholeEntity = new Entity();
+		
+		blackhole = new ImageSprite(pack.getTexture("2_hole"));
+		blackhole.centerAnchor();
+		blackhole.x._ = x1() + 270;
+		blackhole.y._ = y1() + 410;
+		blackhole.setScaleXY(0.8, 0.8);
+		blackhole.alpha._ = 0.9;
+		
+		blackholeEntity.add(blackhole);
+		var script : Script = new Script();
+			script.run(
+				new Repeat(
+				new Sequence(
+				[
+					new Parallel( [
+					new AnimateTo( blackhole.scaleX, blackhole.scaleX._ * 1.01, 0.8, Ease.circIn ),
+					new AnimateTo( blackhole.scaleY, blackhole.scaleY._ * 1.01, 0.8, Ease.circIn )]),
+					
+					new Parallel( [
+					new AnimateTo( blackhole.scaleX, blackhole.scaleX._ / 1.01, 0.8, Ease.circIn ),
+					new AnimateTo( blackhole.scaleY, blackhole.scaleY._ / 1.01, 0.8, Ease.circIn )])
+				])
+				));
+		blackholeEntity.add(script);
+		this.entityLayer.addChild(blackholeEntity);
+		
+		initControllableTarget("2_egggface", 300, 200);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 50, buttonClickRotateClockwise);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 50, buttonClickRotateAntiClockwise);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 150, buttonClickScaleUpX);
@@ -54,18 +121,21 @@ class GamePage_Stage_1 extends GamePage
 		createButton("gui/start-normal", "gui/start-click", false, 430, 350, buttonClickMoveDown);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 450, buttonClickMoveLeft);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 450, buttonClickMoveRight);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 600, buttonClickConfirm);
 	}
 	
 	private function initControllableTarget(imagePath : String, x : Float, y : Float)
 	{
+		controllableTargetEntity = new Entity();
 		controllableTarget = new ImageSprite(pack.getTexture(imagePath));
 		controllableTarget.centerAnchor();
-		controllableTarget.centerAnchor();
-		controllableTarget.x._ = x1() + x;
-		controllableTarget.y._ = y1() + y;
-		controllableTarget.setScaleXY((Math.random() * 3) + 1.1, (Math.random() * 3) + 1.1);
+		controllableTarget.x._ = x1() + x + ((Math.random() - 0.5) * 100);
+		controllableTarget.y._ = y1() + y + ((Math.random() - 0.5) * 100);		
+		controllableTarget.setScaleXY(0.5, 0.5);		
+		controllableTarget.setScaleXY((Math.random() - 0.5) + 1, (Math.random() - 0.5) + 1);
 		controllableTarget.setRotation(Math.random() * 360);
-		this.entityLayer.addChild(new Entity().add(controllableTarget));
+		controllableTargetEntity.add(controllableTarget);
+		this.entityLayer.addChild(controllableTargetEntity);
 	}
 	
 	private function createButton(normalPath : String, clickPath : String, leftScreen : Bool, x : Float, y : Float, func : String -> Void)
@@ -73,8 +143,6 @@ class GamePage_Stage_1 extends GamePage
 		var normalTexture : Texture = pack.getTexture(normalPath);
 		var clickTexture : Texture = pack.getTexture(clickPath);		
 		var button = new GUI_Button(normalTexture, clickTexture, func);
-		
-		button.centerAnchor();
 		button.centerAnchor();
 		
 		if (leftScreen)
@@ -89,6 +157,37 @@ class GamePage_Stage_1 extends GamePage
 		}
 		
 		this.entityLayer.addChild(new Entity().add(button));
+	}
+	
+	private function buttonClickConfirm(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{	
+				var a : Rectangle = Sprite.getBounds(blackholeEntity, null);
+				var b = new RectSprite(Std.int(a.width), Std.int(a.height), 0xFF0000);
+				b.centerAnchor();
+				b.x._ = a.centerX;
+				b.y._ = a.centerY;
+				b.alpha._ = 0.5;
+				this.entityLayer.addChild(new Entity().add(b));
+				
+				var c : Rectangle = Sprite.getBounds(controllableTargetEntity, null);
+				var d = new RectSprite(Std.int(c.width), Std.int(c.height), 0xFF0000);
+				d.centerAnchor();
+				d.x._ = c.centerX;
+				d.y._ = c.centerY;
+				d.alpha._ = 0.5;
+				this.entityLayer.addChild(new Entity().add(d));
+				
+				if (c.x >= a.x && c.x + c.width <= a.x + a.width &&
+					c.y >= a.y && c.y + c.height <= a.y + a.height)
+				{
+					Game.instance().gotoNextPage();
+				}
+			}
+		}
 	}
 	
 	private function buttonClickMoveUp(parameter : String)
@@ -321,6 +420,19 @@ class GamePage_Stage_1 extends GamePage
 			{
 				controllableTarget.x._ = controllableTarget.x._ + ( -MoveSpeed * dt);
 			}
+		}
+		
+		backgroupGalaxy.setRotation(backgroupGalaxy.rotation._ + (10 * dt));
+		
+		if (backgroupBrick1.x._ < pageWidth() + 70)
+		{
+			backgroupBrick1.x._ = backgroupBrick1.x._ + (50 * dt);
+			backgroupBrick1.y._ = backgroupBrick1.y._ + (10 * dt);
+		}
+		else
+		{
+			backgroupBrick1.x._ = -15;
+			backgroupBrick1.y._ = y1() + 100;
 		}
 	}
 	
