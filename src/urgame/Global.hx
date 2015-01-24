@@ -44,4 +44,24 @@ class Global
 	public static function getPage2Y( v : Float = 0 ) : Float {
 		return getPageY( v );
 	}
+		
+	public inline static function radToDeg(rad:Float):Float
+	{
+		return 180 / Math.PI * rad;
+	}
+	
+	public inline static function degToRad(deg:Float):Float
+	{
+		return Math.PI / 180 * deg;
+	}
+	
+	public inline static function clamp(value:Float, min:Float, max:Float):Float
+	{
+		if (value < min)
+			return min;
+		else if (value > max)
+			return max;
+		else
+			return value;
+	}
 }	

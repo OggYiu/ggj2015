@@ -35,6 +35,7 @@ import page.Template_GamePage;
 import page.GamePage_Main;
 import page.GamePage_Stage_1;
 import page.GamePage_Battle;
+import page.GamePage_Car;
 
 /**
  * ...
@@ -50,7 +51,7 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_stage_1, page_battle, page_main, page_find];
+		pages_ = [page_car, page_battle, page_stage_1, page_main, page_find];
 		gotoNextPage();
 	}
 	
@@ -86,6 +87,20 @@ class Game
 		{
 			var e : Entity = new Entity();
 			var page : GamePage_Main = new GamePage_Main( e );
+			e.add( page );
+			
+			scene.addChild( e );
+		}
+		
+		return scene;
+	}
+	
+	public function page_car() : Entity {
+		var scene : Entity = new Entity().add( new Scene() );
+		
+		{
+			var e : Entity = new Entity();
+			var page : GamePage_Car = new GamePage_Car( e );
 			e.add( page );
 			
 			scene.addChild( e );

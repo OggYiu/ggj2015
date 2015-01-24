@@ -92,7 +92,7 @@ class CollisionBox extends Component
 	override public function dispose() {
 		super.dispose();
 		
-		if ( this.sprite != null ) {
+		if ( this.sprite != null && this.sprite.owner != null ) {
 			this.sprite.owner.dispose();
 		}
 		Kernel.instance().collisionMgr.remove( shape_ );

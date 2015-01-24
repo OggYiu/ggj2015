@@ -38,23 +38,6 @@ class GamePage_Battle extends GamePage
 		super.onAdded();
 		
 		{
-			var e : Entity = new Entity();
-
-			var collisionBox : CollisionBox = new CollisionBox();
-			collisionBox.createCircle( 0, 0, 100 );
-			//collisionBox.createRect( 0, 0, 200, 200 );
-			collisionBox.x = x1();
-			collisionBox.y = y1();
-			e.add( collisionBox );
-			
-			{
-				var e1 : Entity = new Entity();
-				e1.add( collisionBox.sprite );
-				this.entityLayer.addChild( e1 );
-			}
-		}
-		
-		{
 			this.player1 = new GameEntity();
 			
 			var e : Entity = new Entity();
@@ -74,11 +57,11 @@ class GamePage_Battle extends GamePage
 			collisionBox.offsetY = -image.getNaturalHeight() / 2;
 			e.add( collisionBox );
 			
-			{
-				var e1 : Entity = new Entity();
-				e1.add( collisionBox.sprite );
-				this.entityLayer.addChild( e1 );
-			}
+			//{
+				//var e1 : Entity = new Entity();
+				//e1.add( collisionBox.sprite );
+				//this.entityLayer.addChild( e1 );
+			//}
 		}
 		
 		{
@@ -103,11 +86,11 @@ class GamePage_Battle extends GamePage
 			collisionBox.offsetY = -image.getNaturalHeight() / 2;
 			e.add( collisionBox );
 			
-			{
-				var e1 : Entity = new Entity();
-				e1.add( collisionBox.sprite );
-				this.entityLayer.addChild( e1 );
-			}
+			//{
+				//var e1 : Entity = new Entity();
+				//e1.add( collisionBox.sprite );
+				//this.entityLayer.addChild( e1 );
+			//}
 		}
 	}
 	
@@ -190,11 +173,11 @@ class GamePage_Battle extends GamePage
 			this.pack.getSound( "audio/lazer_shot" ).play();
 			this.entityLayer.addChild( e );
 			
-			{
-				var e1 : Entity = new Entity();
-				e1.add( collisionBox.sprite );
-				this.entityLayer.addChild( e1 );
-			}
+			//{
+				//var e1 : Entity = new Entity();
+				//e1.add( collisionBox.sprite );
+				//this.entityLayer.addChild( e1 );
+			//}
 		}
 		if ( e.key == Key.J ) {
 			moveKeyUp2_ = true;
@@ -235,11 +218,11 @@ class GamePage_Battle extends GamePage
 			this.pack.getSound( "audio/lazer_shot" ).play();
 			this.entityLayer.addChild( e );
 			
-			{
-				var e1 : Entity = new Entity();
-				e1.add( collisionBox.sprite );
-				this.entityLayer.addChild( e1 );
-			}
+			//{
+				//var e1 : Entity = new Entity();
+				//e1.add( collisionBox.sprite );
+				//this.entityLayer.addChild( e1 );
+			//}
 		}
 	}
 	
