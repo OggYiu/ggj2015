@@ -78,6 +78,7 @@ class Game
 	}
 	
 	private function gotoPage( demoIndex : Int ) : Void {
+		Kernel.instance().pack.getSound( "audio/cheers" ).play();
 		Kernel.instance().goto( pages_[demoIndex](), transitToLeft_ );
 	}
 	
