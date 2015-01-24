@@ -42,7 +42,7 @@ class GamePage_Battle extends GamePage
 
 			
 			var collisionBox : CollisionBox = new CollisionBox();
-			collisionBox.createCircle( 0, 0, ( image.getNaturalWidth() / 5 ) * 2 );
+			//collisionBox.createCircle( 0, 0, ( image.getNaturalWidth() / 5 ) * 2 );
 			e.add( collisionBox );
 			
 			{
