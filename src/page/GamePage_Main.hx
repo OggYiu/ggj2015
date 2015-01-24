@@ -6,6 +6,7 @@ import flambe.Entity;
 import flambe.input.KeyboardEvent;
 import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
+import urgame.Global;
 
 class GamePage_Main extends GamePage
 {
