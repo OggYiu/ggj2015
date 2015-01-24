@@ -51,26 +51,22 @@ class GamePage extends Component
 		disposer.add( System.pointer.up.connect( onMouseUp ) );
 		disposer.add( System.pointer.move.connect( onMouseMove ) );
 		
-		{
+		{	
 			{
 				var e : Entity = new Entity();
-				var width : Int = Std.int( ( this.screenWidth - ( Global.MARGIN_SIDE * 2 ) - Global.MARGIN_SPLIT ) / 2 );
-				var height : Int = this.screenHeight - Global.MARGIN_TOP - Global.MARGIN_BOTTOM;
-				var sprite : FillSprite = new FillSprite( 0x00FF00, width, height );
-				sprite.x._ = Global.MARGIN_SIDE;
-				sprite.y._ = Global.MARGIN_TOP;
+				var sprite : FillSprite = new FillSprite( 0xAAAAAA, Global.getPageWidth(), Global.getPageHeight() );
+				sprite.x._ = Global.getPage1X();
+				sprite.y._ = Global.getPage1Y();
 				e.add( sprite );
 				
 				this.parent.addChild( e );
 			}
-			
+				
 			{
 				var e : Entity = new Entity();
-				var width : Int = Std.int( ( this.screenWidth - ( Global.MARGIN_SIDE * 2 ) - Global.MARGIN_SPLIT ) / 2 );
-				var height : Int = this.screenHeight - Global.MARGIN_TOP - Global.MARGIN_BOTTOM;
-				var sprite : FillSprite = new FillSprite( 0x00FF00, width, height );
-				sprite.x._ = Global.MARGIN_SIDE;
-				sprite.y._ = Global.MARGIN_TOP;
+				var sprite : FillSprite = new FillSprite( 0xAAAAAA, Global.getPageWidth(), Global.getPageHeight() );
+				sprite.x._ = Global.getPage2X();
+				sprite.y._ = Global.getPage2Y();
 				e.add( sprite );
 				
 				this.parent.addChild( e );
