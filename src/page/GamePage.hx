@@ -10,7 +10,7 @@ import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
 import flambe.input.TouchPoint;
 import flambe.System;
-import flash.events.TouchEvent;
+//import flash.events.TouchEvent;
 import urgame.Game;
 import urgame.Global;
 import urgame.Kernel;
