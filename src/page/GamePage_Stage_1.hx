@@ -20,7 +20,6 @@ import flambe.script.Script;
 import flambe.script.Sequence;
 import flambe.System;
 import flambe.util.PackageLog;
-import flash.errors.IllegalOperationError;
 import gui.GUI_Button;
 import urgame.Game;
 import urgame.Kernel;
