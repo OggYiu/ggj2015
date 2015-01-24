@@ -56,21 +56,6 @@ class GamePage extends Component
 		this.background = new Entity();
 		this.parent.addChild( this.background );
 		
-		this.entityLayer = new Entity();
-		this.parent.addChild( this.entityLayer );
-	
-		this.overlay = new Entity();
-		this.parent.addChild( this.overlay );
-		
-		this.disposer.add( System.keyboard.up.connect( onKeyUp ) );
-		this.disposer.add( System.keyboard.down.connect( onKeyDown ) );
-		this.disposer.add( System.pointer.down.connect( onMouseDown ) );
-		this.disposer.add( System.pointer.up.connect( onMouseUp ) );
-		this.disposer.add( System.pointer.move.connect( onMouseMove ) );
-		this.disposer.add( System.touch.down.connect( onTouchDown ) );
-		this.disposer.add( System.touch.up.connect( onTouchUp ) );
-		this.disposer.add( System.touch.move.connect( onTouchMove ) );
-		this.owner.add( this.disposer );
 		
 		{	
 			{
@@ -93,6 +78,22 @@ class GamePage extends Component
 				this.background.addChild( e );
 			}
 		}
+		
+		this.entityLayer = new Entity();
+		this.parent.addChild( this.entityLayer );
+	
+		this.overlay = new Entity();
+		this.parent.addChild( this.overlay );
+		
+		this.disposer.add( System.keyboard.up.connect( onKeyUp ) );
+		this.disposer.add( System.keyboard.down.connect( onKeyDown ) );
+		this.disposer.add( System.pointer.down.connect( onMouseDown ) );
+		this.disposer.add( System.pointer.up.connect( onMouseUp ) );
+		this.disposer.add( System.pointer.move.connect( onMouseMove ) );
+		this.disposer.add( System.touch.down.connect( onTouchDown ) );
+		this.disposer.add( System.touch.up.connect( onTouchUp ) );
+		this.disposer.add( System.touch.move.connect( onTouchMove ) );
+		this.owner.add( this.disposer );
 	}
 	
 	override public function onUpdate( l_dt : Float ) 
