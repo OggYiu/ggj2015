@@ -15,6 +15,7 @@ class GameEntity extends Component
 	public var y( get_y, set_y ) : Float;
 	public var sprite( get_sprite, null ) : Sprite;
 	public var collisionBox( get_collisionBox, null ) : CollisionBox;
+	public var rotate( get_rotate, set_rotate ) : Float;
 	private var position_ : Vector = null;
 	
 	public function new() {
@@ -39,8 +40,14 @@ class GameEntity extends Component
 		}
 		
 		if ( this.collisionBox != null ) {
-			this.collisionBox.x = this.position_.x + this.collisionBox.offsetX;
-			this.collisionBox.y = this.position_.y + this.collisionBox.offsetY;
+			this.collisionBox.x = this.position_.x;
+			this.collisionBox.y = this.position_.y;
+			
+			//if ( this.sprite != null ) {
+				//this.collisionBox.offsetX = -this.sprite.getNaturalWidth() / 2;
+				//this.collisionBox.offsetY = -this.sprite.getNaturalHeight() / 2;
+			//}
+			this.collisionBox.rotate = this.rotate;
 		}
 	}
 	
@@ -81,12 +88,26 @@ class GameEntity extends Component
 		return position_.x;
 	}
 	
+	private function get_rotate() : Float {
+		return this.sprite.rotation._;
+	}
+	
+	private function set_rotate( v : Float ) : Float {
+		this.sprite.rotation._ = v;
+		return v;
+	}
+	
 	private function set_x( v : Float ) : Float {
 		if ( this.sprite != null ) {
 			this.sprite.x._ = v;
 		}
 	
 		position_.x = v;
+		
+		if ( this.collisionBox != null ) {
+			this.collisionBox.x = this.position_.x;
+		}
+		
 		return position_.x;
 	}
 	
@@ -104,6 +125,10 @@ class GameEntity extends Component
 		}
 	
 		position_.y = v;
+		
+		if ( this.collisionBox != null ) {
+			this.collisionBox.y = this.position_.y;
+		}
 		return position_.y;
 	}
 	

@@ -1,4 +1,4 @@
-package page;
+package page ;
 import flambe.asset.AssetPack;
 import flambe.Component;
 import flambe.display.Font;

@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import components.CollisionBox;
 import components.GameEntity;
 import flambe.animation.Ease;
@@ -46,7 +46,7 @@ class Game
 	private var pageIndex_ : Int = -1;
 	private var pages_ : Array < (Void -> Entity) > = null;
 	private var transitToLeft_ : Bool = false;
-	
+
 	public function new() {
 	}
 	

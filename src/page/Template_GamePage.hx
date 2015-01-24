@@ -1,4 +1,4 @@
-package page;
+package page ;
 
 import components.GameEntity;
 import flambe.Component;

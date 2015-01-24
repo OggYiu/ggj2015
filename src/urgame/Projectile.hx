@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import components.GameEntity;
 import flambe.System;
 

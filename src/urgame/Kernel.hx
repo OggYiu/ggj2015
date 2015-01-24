@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import flambe.animation.Ease;
 import flambe.display.Font;
 import flambe.Entity;
@@ -40,6 +40,8 @@ class Kernel extends Component
 		
 		//Console.defaultPrinter.attach();
 		//Console.log( "onAdded" );
+		
+		//Console.log( "stage size: " + System.stage.width + ", " + System.stage.height );
 		
 		return this;
 	}

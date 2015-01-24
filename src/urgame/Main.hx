@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 
 import flambe.animation.Ease;
 import flambe.Entity;

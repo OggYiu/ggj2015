@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import flambe.System;
 import format.abc.Data.IName;
 

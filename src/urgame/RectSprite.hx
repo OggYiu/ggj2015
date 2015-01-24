@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 
 import flambe.display.ImageSprite;
 import flambe.display.Texture;

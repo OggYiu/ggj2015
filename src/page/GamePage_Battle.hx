@@ -1,4 +1,5 @@
-package page;
+package page ;
+import hxcollision.CollisionData;
 
 import components.CollisionBox;
 import components.GameEntity;
@@ -19,6 +20,8 @@ import urgame.Projectile;
 class GamePage_Battle extends GamePage
 {
 	private static var SPEED : Float = 1000;
+	private static var DRAW_COLLISION_BOX : Bool = false;
+	
 	private var player1( default, default ) : GameEntity = null;
 	private var player2( default, default ) : GameEntity = null;
 	private var moveKeyUp1_ : Bool = false;
@@ -52,16 +55,16 @@ class GamePage_Battle extends GamePage
 			
 			var collisionBox : CollisionBox = new CollisionBox();
 			//collisionBox.createRect( 0, 0, image.getNaturalWidth(), image.getNaturalHeight() );
-			collisionBox.createCircle( 0, 0, ( image.getNaturalWidth() / 5 ) * 2 );
-			collisionBox.offsetX = -image.getNaturalWidth() / 2;
-			collisionBox.offsetY = -image.getNaturalHeight() / 2;
+			collisionBox.createCircle( ( image.getNaturalWidth() / 5 ) * 2 );
+			//collisionBox.offsetX = -image.getNaturalWidth() / 2;
+			//collisionBox.offsetY = -image.getNaturalHeight() / 2;
 			e.add( collisionBox );
 			
-			//{
-				//var e1 : Entity = new Entity();
-				//e1.add( collisionBox.sprite );
-				//this.entityLayer.addChild( e1 );
-			//}
+			if ( DRAW_COLLISION_BOX ) {
+				var e1 : Entity = new Entity();
+				e1.add( collisionBox.sprite );
+				this.entityLayer.addChild( e1 );
+			}
 		}
 		
 		{
@@ -81,16 +84,16 @@ class GamePage_Battle extends GamePage
 			
 			var collisionBox : CollisionBox = new CollisionBox();
 			//collisionBox.createRect( 0, 0, image.getNaturalWidth(), image.getNaturalHeight() );
-			collisionBox.createCircle( 0, 0, ( image.getNaturalWidth() / 5 ) * 2 );
-			collisionBox.offsetX = -image.getNaturalWidth() * 0.25;
-			collisionBox.offsetY = -image.getNaturalHeight() / 2;
+			collisionBox.createCircle( ( image.getNaturalWidth() / 5 ) * 2 );
+			//collisionBox.offsetX = -image.getNaturalWidth() * 0.25;
+			//collisionBox.offsetY = -image.getNaturalHeight() / 2;
 			e.add( collisionBox );
 			
-			//{
-				//var e1 : Entity = new Entity();
-				//e1.add( collisionBox.sprite );
-				//this.entityLayer.addChild( e1 );
-			//}
+			if ( DRAW_COLLISION_BOX ) {
+				var e1 : Entity = new Entity();
+				e1.add( collisionBox.sprite );
+				this.entityLayer.addChild( e1 );
+			}
 		}
 	}
 	
@@ -153,11 +156,11 @@ class GamePage_Battle extends GamePage
 			image.x.animateTo( this.screenWidth + image.getNaturalWidth(), 2 );
 			
 			var collisionBox : CollisionBox = new CollisionBox();
-			collisionBox.createCircle( 0, 0, image.getNaturalHeight() / 2 );
+			collisionBox.createCircle( image.getNaturalHeight() / 2 );
 			//collisionBox.createRect( 0, 0, image.getNaturalWidth(), image.getNaturalHeight() / 2 );
-			collisionBox.offsetX = image.getNaturalWidth() / 4;
-			collisionBox.offsetY = -image.getNaturalHeight() / 2;
-			collisionBox.collide.connect( function( box : CollisionBox ) {
+			//collisionBox.offsetX = image.getNaturalWidth() / 2;
+			//collisionBox.offsetY = -image.getNaturalHeight() / 2;
+			collisionBox.collide.connect( function( box : CollisionBox, data : CollisionData ) {
 				if ( box.owner != null ) {
 					if ( box.owner.get( GameEntity ) == this.player2 ) {
 						--player2Hp_;
@@ -173,11 +176,11 @@ class GamePage_Battle extends GamePage
 			this.pack.getSound( "audio/lazer_shot" ).play();
 			this.entityLayer.addChild( e );
 			
-			//{
-				//var e1 : Entity = new Entity();
-				//e1.add( collisionBox.sprite );
-				//this.entityLayer.addChild( e1 );
-			//}
+			if ( DRAW_COLLISION_BOX ) {
+				var e1 : Entity = new Entity();
+				e1.add( collisionBox.sprite );
+				this.entityLayer.addChild( e1 );
+			}
 		}
 		if ( e.key == Key.J ) {
 			moveKeyUp2_ = true;
@@ -198,11 +201,11 @@ class GamePage_Battle extends GamePage
 			image.x.animateTo( -image.getNaturalWidth(), 2 );
 			
 			var collisionBox : CollisionBox = new CollisionBox();
-			collisionBox.createCircle( 0, 0, image.getNaturalHeight() / 2 );
+			collisionBox.createCircle( image.getNaturalHeight() / 2 );
 			//collisionBox.createRect( 0, 0, image.getNaturalWidth(), image.getNaturalHeight() / 2 );
-			collisionBox.offsetX = -image.getNaturalWidth() / 2;
-			collisionBox.offsetY = -image.getNaturalHeight() / 2;
-			collisionBox.collide.connect( function( box : CollisionBox ) {
+			//collisionBox.offsetX = -image.getNaturalWidth() / 2;
+			//collisionBox.offsetY = -image.getNaturalHeight() / 2;
+			collisionBox.collide.connect( function( box : CollisionBox, data : CollisionData ) {
 				if ( box.owner != null ) {
 					if ( box.owner.get( GameEntity ) == this.player1 ) {
 						--player1Hp_;
@@ -218,11 +221,11 @@ class GamePage_Battle extends GamePage
 			this.pack.getSound( "audio/lazer_shot" ).play();
 			this.entityLayer.addChild( e );
 			
-			//{
-				//var e1 : Entity = new Entity();
-				//e1.add( collisionBox.sprite );
-				//this.entityLayer.addChild( e1 );
-			//}
+			if ( DRAW_COLLISION_BOX ) {
+				var e1 : Entity = new Entity();
+				e1.add( collisionBox.sprite );
+				this.entityLayer.addChild( e1 );
+			}
 		}
 	}
 	

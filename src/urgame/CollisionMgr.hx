@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import components.CollisionBox;
 import flambe.Component;
 import hxcollision.Collision;
@@ -69,8 +69,8 @@ class CollisionMgr extends Component
 						continue;
 					}
 					
-					collisionBox1.collide.emit( collisionBox2 );
-					collisionBox2.collide.emit( collisionBox1 );
+					collisionBox1.collide.emit( collisionBox2, mouseCollideData );
+					collisionBox2.collide.emit( collisionBox1, mouseCollideData );
 					//collisionBox1.onCollide( collisionBox2 );
 					//collisionBox2.onCollide( collisionBox1 );
 				}

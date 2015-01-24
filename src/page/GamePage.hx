@@ -1,4 +1,4 @@
-package page;
+package page ;
 import flambe.asset.AssetPack;
 import flambe.Component;
 import flambe.display.FillSprite;
@@ -46,7 +46,7 @@ class GamePage extends Component
 		this.screenHeight = System.stage.height;
 		
 		//Console.log( "stage size: " + System.stage.width + ", " + System.stage.height );
-		//Console.log( "screen size: " + Global.getPageWidth() + ", " + Global.getPageHeight() );
+		Console.log( "screen size: " + Global.getPageWidth() + ", " + Global.getPageHeight() );
 	}
 	
 	override public function onAdded() 

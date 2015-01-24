@@ -1,4 +1,4 @@
-package urgame;
+package urgame ;
 import components.CollisionBox;
 import components.GameEntity;
 import flambe.animation.Ease;
