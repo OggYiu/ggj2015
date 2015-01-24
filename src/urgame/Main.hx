@@ -29,8 +29,8 @@ class Main
         // Add a solid color background
         var background = new FillSprite(0x202020, System.stage.width, System.stage.height);
         System.root.addChild(new Entity().add(background));
-		
-		System.root.add( new Kernel( pack ) );
+		Kernel.instance().create( pack );
+		System.root.add( Kernel.instance() );
 		// Add a plane that moves along the screen
         //var plane = new ImageSprite(pack.getTexture("plane"));
         //plane.x._ = 30;

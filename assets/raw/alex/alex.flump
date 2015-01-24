@@ -1,0 +1,18 @@
+{
+  "exports": [
+    {
+      "additionalScaleFactors": [],
+      "scale": 1,
+      "quality": "best",
+      "format": "JSONZip",
+      "name": "default",
+      "optimize": "Memory",
+      "textureBorder": 1,
+      "maxAtlasSize": 2048,
+      "scaleFactorsString": "",
+      "description": "'default' (JSONZip, 100%)"
+    }
+  ],
+  "exportDir": null,
+  "importDir": ".."
+}
