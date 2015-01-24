@@ -25,9 +25,6 @@ class GamePage_Stage_1 extends GamePage
 	override public function onAdded() 
 	{
 		super.onAdded();
-		
-		
-		Float a = Global.getPage1X();
 	}
 	
 	override public function onUpdate(dt:Float) 
