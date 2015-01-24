@@ -20,7 +20,19 @@ import urgame.Kernel;
  */
 class GamePage_Stage_1 extends GamePage
 {
-	private var controllableTarget : ImageSprite = null;
+	private var MoveSpeed : Float = 350;
+	
+	private var controllableTarget : ImageSprite = null;	
+	private var RotateClockwise : Bool = false;
+	private var RotateAntiClockwise : Bool = false;
+	private var ScaleUpX : Bool = false;
+	private var ScaleDownX : Bool = false;
+	private var ScaleUpY : Bool = false;
+	private var ScaleDownY : Bool = false;
+	private var MoveUp : Bool = false;
+	private var MoveDown : Bool = false;
+	private var MoveLeft : Bool = false;
+	private var MoveRight : Bool = false;
 	
 	public function new( l_parent : Entity ) 
 	{
@@ -32,18 +44,26 @@ class GamePage_Stage_1 extends GamePage
 		super.onAdded();
 		
 		initControllableTarget("plane", 300, 300);
-		createButton("gui/start-normal", "gui/start-click", false, 200, 200, buttonClickRotateClockwise);
-		createButton("gui/start-normal", "gui/start-click", false, 450, 200, buttonClickRotateAntiClockwise);
-		createButton("gui/start-normal", "gui/start-click", false, 200, 400, buttonClickRotateScaleLarger);
-		createButton("gui/start-normal", "gui/start-click", false, 450, 400, buttonClickRotateScaleSmaller);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 50, buttonClickRotateClockwise);
+		createButton("gui/start-normal", "gui/start-click", false, 430, 50, buttonClickRotateAntiClockwise);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 150, buttonClickScaleUpX);
+		createButton("gui/start-normal", "gui/start-click", false, 430, 150, buttonClickScaleDownX);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 250, buttonClickScaleUpY);
+		createButton("gui/start-normal", "gui/start-click", false, 430, 250, buttonClickScaleDownY);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 350, buttonClickMoveUp);
+		createButton("gui/start-normal", "gui/start-click", false, 430, 350, buttonClickMoveDown);
+		createButton("gui/start-normal", "gui/start-click", false, 200, 450, buttonClickMoveLeft);
+		createButton("gui/start-normal", "gui/start-click", false, 430, 450, buttonClickMoveRight);
 	}
 	
 	private function initControllableTarget(imagePath : String, x : Float, y : Float)
 	{
 		controllableTarget = new ImageSprite(pack.getTexture(imagePath));
-		controllableTarget.centerAnchor().x._ = x1() + x;
-		controllableTarget.centerAnchor().y._ = y1() + y;
-		controllableTarget.setScaleXY((Math.random() * 2) + 1.1, (Math.random() * 2) + 1.1);
+		controllableTarget.centerAnchor();
+		controllableTarget.centerAnchor();
+		controllableTarget.x._ = x1() + x;
+		controllableTarget.y._ = y1() + y;
+		controllableTarget.setScaleXY((Math.random() * 3) + 1.1, (Math.random() * 3) + 1.1);
 		controllableTarget.setRotation(Math.random() * 360);
 		this.entityLayer.addChild(new Entity().add(controllableTarget));
 	}
@@ -54,26 +74,95 @@ class GamePage_Stage_1 extends GamePage
 		var clickTexture : Texture = pack.getTexture(clickPath);		
 		var button = new GUI_Button(normalTexture, clickTexture, func);
 		
+		button.centerAnchor();
+		button.centerAnchor();
+		
 		if (leftScreen)
 		{
-			button.centerAnchor().x._ = x2() + x;
-			button.centerAnchor().y._ = y2() + y;
+			button.x._ = x1() + x;
+			button.y._ = y1() + y;
 		}
 		else
 		{
-			button.centerAnchor().x._ = x2() + x;
-			button.centerAnchor().y._ = y2() + y;
+			button.x._ = x2() + x;
+			button.y._ = y2() + y;
 		}
 		
 		this.entityLayer.addChild(new Entity().add(button));
+	}
+	
+	private function buttonClickMoveUp(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				MoveUp = true;
+			}
+			else
+			{
+				MoveUp = false;
+			}
+		}
+	}
+	
+	private function buttonClickMoveDown(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				MoveDown = true;
+			}
+			else
+			{
+				MoveDown = false;
+			}
+		}
+	}
+	
+	private function buttonClickMoveLeft(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				MoveLeft = true;
+			}
+			else
+			{
+				MoveLeft = false;
+			}
+		}
+	}
+	
+	private function buttonClickMoveRight(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				MoveRight = true;
+			}
+			else
+			{
+				MoveRight = false;
+			}
+		}
 	}
 	
 	private function buttonClickRotateClockwise(parameter : String)
 	{
 		if (controllableTarget != null)
 		{
-			trace("dwhqjdbjwq");
-			controllableTarget.setRotation(100);
+			if (parameter == GUI_Button.DOWN)
+			{
+				RotateClockwise = true;
+			}
+			else
+			{
+				RotateClockwise = false;
+			}
 		}
 	}
 	
@@ -81,29 +170,158 @@ class GamePage_Stage_1 extends GamePage
 	{
 		if (controllableTarget != null)
 		{
-			controllableTarget.setRotation(-100);
+			if (parameter == GUI_Button.DOWN)
+			{
+				RotateAntiClockwise = true;
+			}
+			else
+			{
+				RotateAntiClockwise = false;
+			}
 		}
 	}
 	
-	private function buttonClickRotateScaleLarger(parameter : String)
+	private function buttonClickScaleUpX(parameter : String)
 	{
 		if (controllableTarget != null)
 		{
-			controllableTarget.setScaleXY(1.1, 1.1);
+			if (parameter == GUI_Button.DOWN)
+			{
+				ScaleUpX = true;
+			}
+			else
+			{
+				ScaleUpX = false;
+			}
 		}
 	}
 	
-	private function buttonClickRotateScaleSmaller(parameter : String)
+	private function buttonClickScaleDownX(parameter : String)
 	{
 		if (controllableTarget != null)
 		{
-			controllableTarget.setScaleXY(-1.1, -1.1);
+			if (parameter == GUI_Button.DOWN)
+			{
+				ScaleDownX = true;
+			}
+			else
+			{
+				ScaleDownX = false;
+			}
+		}
+	}
+	
+	private function buttonClickScaleUpY(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				ScaleUpY = true;
+			}
+			else
+			{
+				ScaleUpY = false;
+			}
+		}
+	}
+	
+	private function buttonClickScaleDownY(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				ScaleDownY = true;
+			}
+			else
+			{
+				ScaleDownY = false;
+			}
 		}
 	}
 	
 	override public function onUpdate(dt:Float) 
 	{
 		super.onUpdate(dt);
+		
+		if (RotateClockwise)
+		{
+			controllableTarget.setRotation(controllableTarget.rotation._ + (100 * dt));
+		}
+		
+		if (RotateAntiClockwise)
+		{
+			controllableTarget.setRotation(controllableTarget.rotation._ + (-100 * dt));
+		}
+		
+		if (ScaleUpX)
+		{
+			if (controllableTarget.scaleX._ < 10
+			&& (controllableTarget.x._ + ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (5 * dt))) / 2) < this.pageWidth() + x1())
+			&& (controllableTarget.x._ - ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (5 * dt))) / 2) > x1()))
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._ + (5 * dt), controllableTarget.scaleY._);
+			}
+		}
+		
+		if (ScaleDownX)
+		{
+			if (controllableTarget.scaleX._ > 0.3)
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._ + ( -5 * dt), controllableTarget.scaleY._);
+			}
+		}
+		
+		if (ScaleUpY)
+		{
+			if (controllableTarget.scaleY._ < 10			
+			&& (controllableTarget.y._ + ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (5 * dt))) / 2) < this.pageHeight() + y1())
+			&& (controllableTarget.y._ - ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (5 * dt))) / 2) > y1()))
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._, controllableTarget.scaleY._ + (5 * dt));
+			}
+		}
+		
+		if (ScaleDownY)
+		{
+			if (controllableTarget.scaleY._ > 0.3)
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._, controllableTarget.scaleY._ + ( -5 * dt));
+			}
+		}
+		
+		if (MoveUp)
+		{
+			if (controllableTarget.y._ + (MoveSpeed * dt) + ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) < this.pageHeight() + y1())
+			{
+				controllableTarget.y._ = controllableTarget.y._ + (MoveSpeed * dt);
+			}
+		}
+		
+		if (MoveDown)
+		{
+			if (controllableTarget.y._ - (MoveSpeed * dt) - ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) > y1())
+			{
+				controllableTarget.y._ = controllableTarget.y._ + ( -MoveSpeed * dt);
+			}
+		}
+		
+		if (MoveRight)
+		{
+			if (controllableTarget.x._ + (MoveSpeed * dt) + ((controllableTarget.getNaturalWidth() * controllableTarget.scaleX._) / 2) < this.pageWidth() + x1())
+			{
+				controllableTarget.x._ = controllableTarget.x._ + (MoveSpeed * dt);
+			}
+		}
+		
+		if (MoveLeft)
+		{
+			if (controllableTarget.x._ - (MoveSpeed * dt) - ((controllableTarget.getNaturalWidth() * controllableTarget.scaleX._) / 2) > x1())
+			{
+				controllableTarget.x._ = controllableTarget.x._ + ( -MoveSpeed * dt);
+			}
+		}
 	}
 	
 	override public function dispose() 
