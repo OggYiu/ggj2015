@@ -15,6 +15,7 @@ class GameEntity extends Component
 	public var x( get_x, set_x ) : Float;
 	public var y( get_y, set_y ) : Float;
 	public var sprite( get_sprite, set_sprite ) : ImageSprite;
+	//public var canDrag( 
 	
 	private var sprite_ : ImageSprite = null;
 	private var position_ : Vector = null;

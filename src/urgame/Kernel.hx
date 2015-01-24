@@ -1,5 +1,6 @@
 package urgame;
 import flambe.animation.Ease;
+import flambe.display.Font;
 import flambe.Entity;
 import flambe.input.Key;
 import flambe.input.KeyboardEvent;
@@ -16,6 +17,7 @@ import flambe.scene.Director;
 class Kernel extends Component
 {
 	public var pack( default, null ) : AssetPack = null;
+	public var font( default, null ) : Font = null;
 	public var collisionMgr( default, null ) : CollisionMgr = null;
 	
 	private var director_ : Director;
@@ -29,8 +31,11 @@ class Kernel extends Component
 	
 	public function create( l_pack : AssetPack ) : Kernel {
 		this.pack = l_pack;
+		this.font = new Font( this.pack, "font" );
 		
 		System.keyboard.up.connect( onKeyUp );
+		
+		//System.stage.requestFullscreen();
 		
 		Console.start();
 		//Console.defaultPrinter.attach();
@@ -44,7 +49,8 @@ class Kernel extends Component
 		super.onAdded();
 		
 		System.root.add( director_ = new Director() );
-		Demo.instance().create();
+		Game.instance().create();
+		//Demo.instance().create();
 	}
 	
 	private function toggleDebugger() : Void {

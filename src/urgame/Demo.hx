@@ -60,8 +60,6 @@ class Demo
 		
 		demos_ = [demo_gameEntity, demo_gui, demo_primitive, demo_scriptAnim, demo_sprite, demo_test, demo_tween];
 		gotoNextDemo();
-		System.keyboard.up.connect( onKeyUp );
-		System.pointer.move.connect( onMouseMove );
 	}
 	
 	private function gotoPreviousDemo() : Void {
