@@ -122,7 +122,7 @@ class GamePage_Stage_1 extends GamePage
 		
 		createButton("2/2_left_button1", "2/2_button_black", false, 205, 210, buttonClickScale);
 		
-		createButton("2/2_left_button3", "2/2_button_black", false, 290, 375, buttonClickMoveUp);
+		createButton("2/2_left_button3", "2/2_button_black", false, 290, 375, buttonClickMoveDown);
 		
 		createButton("2/2_left_button4", "2/2_button_black", false, 365, 442, buttonClickConfirm);
 		
@@ -151,8 +151,11 @@ class GamePage_Stage_1 extends GamePage
 		controllableTargetEntity = new Entity();
 		controllableTarget = new ImageSprite(pack.getTexture(imagePath));
 		controllableTarget.centerAnchor();
-		controllableTarget.x._ = x1() + x + ((Math.random() - 0.5) * 100);
+		//controllableTarget.x._ = x1() + x + ((Math.random() - 0.5) * 100);
+		
+		controllableTarget.x._ = blackhole.x._;
 		controllableTarget.y._ = y1() + y + ((Math.random() - 0.5) * 100);		
+		
 		controllableTarget.setScaleXY(0.5, 0.5);		
 		controllableTarget.setScaleXY((Math.random() - 0.5) + 1, (Math.random() - 0.5) + 1);
 		controllableTarget.setRotation(Math.random() * 360);
@@ -449,15 +452,20 @@ class GamePage_Stage_1 extends GamePage
 			}
 		}
 		
-		if (MoveUp)
+		if (MoveDown)
 		{
+			if (controllableTarget.y._ + ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) >= (this.pageHeight() + y1()) * 0.97)
+			{
+				controllableTarget.y._ = y1() + ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) - 50;
+			}
+			
 			if (controllableTarget.y._ + (MoveSpeed * dt) + ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) < this.pageHeight() + y1())
 			{
 				controllableTarget.y._ = controllableTarget.y._ + (MoveSpeed * dt);
 			}
 		}
 		
-		if (MoveDown)
+		if (MoveUp)
 		{
 			if (controllableTarget.y._ - (MoveSpeed * dt) - ((controllableTarget.getNaturalHeight() * controllableTarget.scaleY._) / 2) > y1())
 			{
