@@ -65,6 +65,12 @@ class GamePage_Stage_1 extends GamePage
 	{
 		super.onAdded();
 		
+		var backgroupRight = new ImageSprite(pack.getTexture("2/2_right"));
+		backgroupRight.centerAnchor();
+		backgroupRight.x._ = x2() + backgroupRight.getNaturalWidth() / 2;
+		backgroupRight.y._ = y2() + backgroupRight.getNaturalHeight() / 2;
+		this.entityLayer.addChild(new Entity().add(backgroupRight));
+		
 		backgroupGalaxy = new ImageSprite(pack.getTexture("2/2_galaxy"));
 		backgroupGalaxy.centerAnchor();
 		backgroupGalaxy.x._ = x1() + backgroupGalaxy.getNaturalWidth() / 2;
@@ -111,17 +117,33 @@ class GamePage_Stage_1 extends GamePage
 		this.entityLayer.addChild(blackholeEntity);
 		
 		initControllableTarget("2/2_egggface", 300, 200);
+		
+		createButton("2/2_left_button2", "2/2_button_black", false, 295, 245, buttonClickRotateClockwise);
+		
+		createButton("2/2_left_button1", "2/2_button_black", false, 205, 210, buttonClickScale);
+		
+		createButton("2/2_left_button3", "2/2_button_black", false, 290, 375, buttonClickMoveUp);
+		
+		createButton("2/2_left_button4", "2/2_button_black", false, 365, 442, buttonClickConfirm);
+		
+		
+		/*
 		createButton("gui/start-normal", "gui/start-click", false, 200, 50, buttonClickRotateClockwise);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 50, buttonClickRotateAntiClockwise);
+		
 		createButton("gui/start-normal", "gui/start-click", false, 200, 150, buttonClickScaleUpX);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 150, buttonClickScaleDownX);
 		createButton("gui/start-normal", "gui/start-click", false, 200, 250, buttonClickScaleUpY);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 250, buttonClickScaleDownY);
+		
 		createButton("gui/start-normal", "gui/start-click", false, 200, 350, buttonClickMoveUp);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 350, buttonClickMoveDown);
+		
 		createButton("gui/start-normal", "gui/start-click", false, 200, 450, buttonClickMoveLeft);
 		createButton("gui/start-normal", "gui/start-click", false, 430, 450, buttonClickMoveRight);
+		
 		createButton("gui/start-normal", "gui/start-click", false, 200, 600, buttonClickConfirm);
+		*/
 	}
 	
 	private function initControllableTarget(imagePath : String, x : Float, y : Float)
@@ -144,6 +166,7 @@ class GamePage_Stage_1 extends GamePage
 		var clickTexture : Texture = pack.getTexture(clickPath);		
 		var button = new GUI_Button(normalTexture, clickTexture, func);
 		button.centerAnchor();
+		button.setRotation(button.rotation._ - 5);
 		
 		if (leftScreen)
 		{
@@ -166,20 +189,26 @@ class GamePage_Stage_1 extends GamePage
 			if (parameter == GUI_Button.DOWN)
 			{	
 				var a : Rectangle = Sprite.getBounds(blackholeEntity, null);
+				
+				/*
 				var b = new RectSprite(Std.int(a.width), Std.int(a.height), 0xFF0000);
 				b.centerAnchor();
 				b.x._ = a.centerX;
 				b.y._ = a.centerY;
 				b.alpha._ = 0.5;
 				this.entityLayer.addChild(new Entity().add(b));
+				*/
 				
 				var c : Rectangle = Sprite.getBounds(controllableTargetEntity, null);
+				
+				/*
 				var d = new RectSprite(Std.int(c.width), Std.int(c.height), 0xFF0000);
 				d.centerAnchor();
 				d.x._ = c.centerX;
 				d.y._ = c.centerY;
 				d.alpha._ = 0.5;
 				this.entityLayer.addChild(new Entity().add(d));
+				*/
 				
 				if (c.x >= a.x && c.x + c.width <= a.x + a.width &&
 					c.y >= a.y && c.y + c.height <= a.y + a.height)
@@ -283,6 +312,23 @@ class GamePage_Stage_1 extends GamePage
 		}
 	}
 	
+	private function buttonClickScale(parameter : String)
+	{
+		if (controllableTarget != null)
+		{
+			if (parameter == GUI_Button.DOWN)
+			{
+				ScaleUpX = true;
+				ScaleUpY = true;
+			}
+			else
+			{
+				ScaleUpX = false;
+				ScaleUpY = false;
+			}
+		}
+	}
+	
 	private function buttonClickScaleUpX(parameter : String)
 	{
 		if (controllableTarget != null)
@@ -359,11 +405,16 @@ class GamePage_Stage_1 extends GamePage
 		
 		if (ScaleUpX)
 		{
-			if (controllableTarget.scaleX._ < 10
-			&& (controllableTarget.x._ + ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (5 * dt))) / 2) < this.pageWidth() + x1())
-			&& (controllableTarget.x._ - ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (5 * dt))) / 2) > x1()))
+			if (controllableTarget.scaleX._ > 2)
 			{
-				controllableTarget.setScaleXY(controllableTarget.scaleX._ + (5 * dt), controllableTarget.scaleY._);
+				controllableTarget.setScaleXY(0.2, 0.2);
+			}
+			
+			if (controllableTarget.scaleX._ < 10
+			&& (controllableTarget.x._ + ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (2 * dt))) / 2) < this.pageWidth() + x1())
+			&& (controllableTarget.x._ - ((controllableTarget.getNaturalWidth() * (controllableTarget.scaleX._ + (2 * dt))) / 2) > x1()))
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._ + (2 * dt), controllableTarget.scaleY._);
 			}
 		}
 		
@@ -377,11 +428,16 @@ class GamePage_Stage_1 extends GamePage
 		
 		if (ScaleUpY)
 		{
-			if (controllableTarget.scaleY._ < 10			
-			&& (controllableTarget.y._ + ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (5 * dt))) / 2) < this.pageHeight() + y1())
-			&& (controllableTarget.y._ - ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (5 * dt))) / 2) > y1()))
+			if (controllableTarget.scaleY._ > 2)
 			{
-				controllableTarget.setScaleXY(controllableTarget.scaleX._, controllableTarget.scaleY._ + (5 * dt));
+				controllableTarget.setScaleXY(0.2, 0.2);
+			}
+			
+			if (controllableTarget.scaleY._ < 10			
+			&& (controllableTarget.y._ + ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (2 * dt))) / 2) < this.pageHeight() + y1())
+			&& (controllableTarget.y._ - ((controllableTarget.getNaturalHeight() * (controllableTarget.scaleY._ + (2 * dt))) / 2) > y1()))
+			{
+				controllableTarget.setScaleXY(controllableTarget.scaleX._, controllableTarget.scaleY._ + (2 * dt));
 			}
 		}
 		
