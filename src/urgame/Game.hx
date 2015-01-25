@@ -79,7 +79,7 @@ class Game
 	}
 	
 	private function gotoPage( demoIndex : Int ) : Void {
-		Kernel.instance().pack.getSound( "audio/cheers" ).play();
+		//Kernel.instance().pack.getSound( "audio/cheers" ).play();
 		Kernel.instance().goto( pages_[demoIndex](), transitToLeft_ );
 	}
 	
@@ -129,7 +129,7 @@ class Game
 	}
 	
 	public function page_title() : Entity {
-		Kernel.instance().pack.getSound( "audio/title" ).play();
+		Kernel.instance().pack.getSound( "audio/title" ).loop();
 		
 		var scene : Entity = new Entity().add( new Scene() );
 		
@@ -192,7 +192,7 @@ class Game
 	}
 	
 	public function page_stage_1() : Entity {
-		Kernel.instance().pack.getSound( "audio/background" ).play();
+		//Kernel.instance().pack.getSound( "audio/background" ).play();
 		
 		var scene : Entity = new Entity().add( new Scene() );
 		

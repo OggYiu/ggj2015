@@ -14,6 +14,7 @@ import flambe.input.KeyboardEvent;
 import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
 import flambe.script.Repeat;
+import format.tools.Image;
 import hxcollision.CollisionData;
 import hxcollision.math.Matrix;
 import hxcollision.math.Vector;
@@ -22,7 +23,7 @@ import urgame.Global;
 
 class GamePage_Car extends GamePage
 {
-	private static var DRAW_DEBUG_BOX : Bool = true;
+	private static var DRAW_DEBUG_BOX : Bool = false;
 	private static var ROT_SPEED : Float = 100;
 	private static var MOVE_SPEED : Float = 100;
 	private static var MAX_SPEED : Float = 1000;
@@ -71,10 +72,23 @@ class GamePage_Car extends GamePage
 		{
 			var e : Entity = new Entity();
 			
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "3/3_background" ) );
+			e.add( image );
+			
+			image.x._ = x1();
+			image.y._ = y1();
+			
+			this.entityLayer.addChild( e );
+			
+		}
+		
+		{
+			var e : Entity = new Entity();
+			
 			this.car_ = new GameEntity();
 			e.add( this.car_ );
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "car" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "3/3_car" ) );
 			e.add( image );
 			image.x._ = x1() + this.pageWidth() - image.getNaturalWidth() * 2.0;
 			image.y._ = y1() + this.pageHeight() - image.getNaturalHeight() * 2.0;
@@ -99,14 +113,27 @@ class GamePage_Car extends GamePage
 			this.cake_ = new GameEntity();
 			e.add( this.cake_ );
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "cake" ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "3/bloodHead" ) );
 			e.add( image );
 			image.x._ = x1() + Math.random() * this.pageWidth();
-			image.y._ = x1() + Math.random() * this.pageHeight();
+			image.y._ = y1() + Math.random() * this.pageHeight();
+			
+			{
+				var e1 : Entity = new Entity();
+				var imageBody : ImageSprite = new ImageSprite( this.pack.getTexture( "3/3_blood" ) );
+				e1.add( imageBody );
+				imageBody.x._ = image.x._ - 110;
+				imageBody.y._ = image.y._ - 76;
+				this.entityLayer.addChild( e1 );
+			}
 			
 			var collisionBox : CollisionBox = new CollisionBox();
 			collisionBox.createCircle( image.getNaturalWidth() / 2 );
 			this.disposer.add( collisionBox.collide.connect( function( collisionBox : CollisionBox, data : CollisionData ) {
+				if ( won_ ) {
+					return;
+				}
+				
 				if ( collisionBox.owner == null ) {
 					return;
 				}
@@ -274,11 +301,10 @@ class GamePage_Car extends GamePage
 	}
 	
 	private function addObstacle( l_number : Int ) : Void {
-		var names : Array<String> = [	"3/3_blood",
-										"3/3_car",
-										"3/3_heart",
-										"3/3_tiger",
-										"3/3_soilder_withsword" ];
+		var names : Array<String> = [	"3/soilderHead",
+										"3/tigerHead" ];
+		var bodyNames : Array<String> = [	"3/3_soilder_withsword",
+											"3/3_tiger" ];
 		for ( i in 0 ... l_number ) {
 			var e : Entity = new Entity();
 			
@@ -292,11 +318,28 @@ class GamePage_Car extends GamePage
 			image.x._ = Math.random() * ( x1() + this.pageWidth() );
 			image.y._ = Math.random() * ( y1() + this.pageHeight() );
 			
+			{
+				var e1 : Entity = new Entity();
+				var imageBody : ImageSprite = new ImageSprite( this.pack.getTexture( bodyNames[randIndex] ) );
+				e1.add( imageBody );
+				if ( randIndex == 0 ) {
+					imageBody.x._ = image.x._ - 80;
+					imageBody.y._ = image.y._ - 120;
+				} else if ( randIndex == 1 ) {
+					imageBody.x._ = image.x._ - 30;
+					imageBody.y._ = image.y._ - 30;
+				}
+				this.entityLayer.addChild( e1 );
+			}
 			var collisionBox : CollisionBox = new CollisionBox();
 			//collisionBox.createRect( image.getNaturalWidth(), image.getNaturalHeight() );
 			collisionBox.createCircle( image.getNaturalWidth() / 2 );
 			collisionBox.isStatic = true;
 			this.disposer.add( collisionBox.collide.connect( function( other : CollisionBox, collisionData : CollisionData ) {
+				if ( won_ ) {
+					return;
+				}
+				
 				if ( other.isStatic ) {
 					return;
 				}
