@@ -2,6 +2,7 @@ package page ;
 
 import components.CollisionBox;
 import components.GameEntity;
+import flambe.animation.Ease;
 import flambe.Component;
 import flambe.debug.FpsDisplay;
 import flambe.display.FillSprite;
@@ -13,6 +14,7 @@ import flambe.input.Key;
 import flambe.input.KeyboardEvent;
 import flambe.input.MouseEvent;
 import flambe.input.PointerEvent;
+import flambe.script.CallFunction;
 import flambe.script.Repeat;
 import format.tools.Image;
 import hxcollision.CollisionData;
@@ -21,8 +23,17 @@ import hxcollision.math.Vector;
 import urgame.Game;
 import urgame.Global;
 
+import flambe.script.AnimateTo;
+import flambe.script.Parallel;
+import flambe.script.Script;
+import flambe.script.Sequence;
+
 class GamePage_Car extends GamePage
 {
+	private var disappearBackground : ImageSprite = null;
+	
+	private var disappeared : Bool = false;
+	
 	private static var DRAW_DEBUG_BOX : Bool = false;
 	private static var ROT_SPEED : Float = 100;
 	private static var MOVE_SPEED : Float = 100;
@@ -158,6 +169,22 @@ class GamePage_Car extends GamePage
 			} ) );
 			e.add( collisionBox );
 			
+			var script : Script = new Script();
+			script.run(
+				new Repeat(
+				new Sequence(
+				[
+					new Parallel( [
+					new AnimateTo( image.scaleX, image.scaleX._ * 1.03, 0.8, Ease.circIn ),
+					new AnimateTo( image.scaleY, image.scaleY._ * 1.03, 0.8, Ease.circIn )]),
+					
+					new Parallel( [
+					new AnimateTo( image.scaleX, image.scaleX._ / 1.03, 0.8, Ease.circIn ),
+					new AnimateTo( image.scaleY, image.scaleY._ / 1.03, 0.8, Ease.circIn )])
+				])
+				));
+			e.add(script);
+				
 			if ( DRAW_DEBUG_BOX ) {
 				var e1 : Entity = new Entity();
 				e1.add( collisionBox.sprite );
@@ -177,16 +204,12 @@ class GamePage_Car extends GamePage
 		}
 	}
 	
-	private function initRScreen() : Void {
-		
-		
+	private function initRScreen() : Void 
+	{	
 		var background = new ImageSprite(pack.getTexture("3/3_right_background"));
 		background.x._ = x2();
 		background.y._ = y2();
 		this.entityLayer.addChild(new Entity().add(background));
-		
-		
-		
 		
 		// circle button
 		var startX : Float = 165;
@@ -303,6 +326,11 @@ class GamePage_Car extends GamePage
 				} ) );
 			}
 		}
+		
+		disappearBackground = new ImageSprite(pack.getTexture("3/3_right_left"));
+		disappearBackground.x._ = x2();
+		disappearBackground.y._ = y2();
+		this.entityLayer.addChild(new Entity().add(disappearBackground));
 	}
 	
 	private function addObstacle( l_number : Int ) : Void {
@@ -379,6 +407,24 @@ class GamePage_Car extends GamePage
 		
 		countDown_ += dt;
 		super.onUpdate(dt);
+		
+		if (countDown_ > 2 && disappeared == false)
+		{	
+			var script : Script = new Script();
+			script.run(				
+				new Sequence(
+				[
+					//disappearBackground.alpha.animateTo(0, 0.5),
+					
+					new AnimateTo( disappearBackground.alpha, 0, 0.5, Ease.circIn ),
+					new CallFunction(function()
+					{
+						disappearBackground.owner.dispose();
+					})
+				]));
+			disappearBackground.owner.add(script);
+			disappeared = true;
+		}
 		
 		//if ( turnLeft_ ) {
 			//this.car_.rotate -= dt * ROT_SPEED;
