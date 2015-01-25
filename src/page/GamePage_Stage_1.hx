@@ -33,6 +33,7 @@ class GamePage_Stage_1 extends GamePage
 {
 	private var MoveSpeed : Float = 350;
 	
+	private var won_ : Bool = false;
 	private var controllableTarget : ImageSprite = null;
 	private var backgroupGalaxy : ImageSprite = null;
 	private var backgroupCubes : ImageSprite = null;
@@ -183,7 +184,10 @@ class GamePage_Stage_1 extends GamePage
 				if (c.x >= a.x && c.x + c.width <= a.x + a.width &&
 					c.y >= a.y && c.y + c.height <= a.y + a.height)
 				{
-					Game.instance().gotoNextPage();
+					if ( !won_ ) {
+						Game.instance().gotoNextPage();
+						won_ = true;
+					}
 				}
 			}
 		}

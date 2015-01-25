@@ -51,7 +51,7 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_battle, page_stage_1, page_car, page_main, page_find];
+		pages_ = [page_title, page_car, page_stage_1, page_battle, page_end];
 		gotoNextPage();
 	}
 	
@@ -78,17 +78,21 @@ class Game
 	}
 	
 	private function gotoPage( demoIndex : Int ) : Void {
+		//trace( "go to page : " + demoIndex );
 		Kernel.instance().pack.getSound( "audio/cheers" ).play();
 		Kernel.instance().goto( pages_[demoIndex](), transitToLeft_ );
 	}
 	
-	public function page_main() : Entity {
+	public function page_end() : Entity {
 		var scene : Entity = new Entity().add( new Scene() );
 		
 		{
 			var e : Entity = new Entity();
-			var page : GamePage_Main = new GamePage_Main( e );
-			e.add( page );
+			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "5-final" ) );
+			image.centerAnchor();
+			image.x._ = System.stage.width / 2;
+			image.y._ = System.stage.height / 2;
+			e.add( image );
 			
 			scene.addChild( e );
 		}
@@ -124,6 +128,24 @@ class Game
 		return scene;
 	}
 	
+	public function page_title() : Entity {
+		var scene : Entity = new Entity().add( new Scene() );
+		
+		{
+			var e : Entity = new Entity();
+			
+			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "eggman_full" ) );
+			image.centerAnchor();
+			e.add( image );
+			image.x._ = System.stage.width / 2;
+			image.y._ = System.stage.height / 2;
+			
+			scene.addChild( e );
+		}
+		
+		return scene;
+	}
+	
 	public function page_stage_1() : Entity {
 		var scene : Entity = new Entity().add( new Scene() );
 		
@@ -133,17 +155,6 @@ class Game
 			e.add( page );
 			
 			scene.addChild( e );
-		}
-		
-		return scene;
-	}
-	
-	public function page_find() : Entity {
-		var scene : Entity = new Entity().add( new Scene() );
-		
-		{
-			//var page : GamePage_Main = new GamePage_Main( scene );
-			//scene.addChild( page );
 		}
 		
 		return scene;

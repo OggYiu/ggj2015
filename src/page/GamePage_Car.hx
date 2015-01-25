@@ -44,6 +44,8 @@ class GamePage_Car extends GamePage
 	private var controller1Button : ImageSprite = null;
 	
 	private var circleButton_ : ImageSprite = null;
+	private var countDown_ : Float  = 0;
+	private var won_ : Bool = false;
 	//private var disposer_ : Disposer = null;
 	
 	public function new(l_parent:Entity) 
@@ -74,8 +76,8 @@ class GamePage_Car extends GamePage
 			
 			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "car" ) );
 			e.add( image );
-			image.x._ = x1() + this.pageWidth() / 2;
-			image.y._ = y1() + this.pageHeight() / 2;
+			image.x._ = x1() + this.pageWidth() - image.getNaturalWidth() * 2.0;
+			image.y._ = y1() + this.pageHeight() - image.getNaturalHeight() * 2.0;
 			
 			var collisionBox : CollisionBox = new CollisionBox();
 			//collisionBox.createRect( image.getNaturalWidth(), image.getNaturalHeight() );
@@ -109,11 +111,16 @@ class GamePage_Car extends GamePage
 					return;
 				}
 				
+				if ( countDown_ <= 1 ) {
+					return;
+				}
+				
 				if ( this.car_.owner == null ) {
 					return;
 				}
 				
 				if ( collisionBox.owner == this.car_.owner ) {
+					//trace( "coll" );
 					gameWin();
 				}
 			} ) );
@@ -132,7 +139,10 @@ class GamePage_Car extends GamePage
 	}
 	
 	private function gameWin() : Void {
-		Game.instance().gotoNextPage();
+		if ( !won_ ) {
+			Game.instance().gotoNextPage();	
+			won_ = true;
+		}
 	}
 	
 	private function initRScreen() : Void {
@@ -292,6 +302,7 @@ class GamePage_Car extends GamePage
 	
 	override public function onUpdate(dt:Float) 
 	{
+		countDown_ += dt;
 		super.onUpdate(dt);
 		
 		//if ( turnLeft_ ) {

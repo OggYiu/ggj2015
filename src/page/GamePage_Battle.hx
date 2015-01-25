@@ -347,8 +347,11 @@ class GamePage_Battle extends GamePage
 		}
 	}
 	
+	private var won_ : Bool = false;
 	private function gameEnd( l_player : GameEntity ) : Void {
-		Game.instance().gotoNextPage();
-		
+		if ( !won_ ) {
+			won_ = true;
+			Game.instance().gotoNextPage();
+		}
 	}
 }
