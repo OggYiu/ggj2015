@@ -2,6 +2,7 @@ package page ;
 
 import components.CollisionBox;
 import components.GameEntity;
+import flambe.animation.Ease;
 import flambe.Component;
 import flambe.debug.FpsDisplay;
 import flambe.display.FillSprite;
@@ -23,6 +24,8 @@ import urgame.Global;
 
 class GamePage_Car extends GamePage
 {
+	private var disappearBackground : ImageSprite = null;
+	
 	private static var DRAW_DEBUG_BOX : Bool = false;
 	private static var ROT_SPEED : Float = 100;
 	private static var MOVE_SPEED : Float = 100;
@@ -172,16 +175,12 @@ class GamePage_Car extends GamePage
 		}
 	}
 	
-	private function initRScreen() : Void {
-		
-		
+	private function initRScreen() : Void 
+	{	
 		var background = new ImageSprite(pack.getTexture("3/3_right_background"));
 		background.x._ = x2();
 		background.y._ = y2();
 		this.entityLayer.addChild(new Entity().add(background));
-		
-		
-		
 		
 		// circle button
 		var startX : Float = 165;
@@ -298,6 +297,11 @@ class GamePage_Car extends GamePage
 				} ) );
 			}
 		}
+		
+		disappearBackground = new ImageSprite(pack.getTexture("3/3_right_left"));
+		disappearBackground.x._ = x2();
+		disappearBackground.y._ = y2();
+		this.entityLayer.addChild(new Entity().add(disappearBackground));
 	}
 	
 	private function addObstacle( l_number : Int ) : Void {
@@ -368,6 +372,11 @@ class GamePage_Car extends GamePage
 	{
 		countDown_ += dt;
 		super.onUpdate(dt);
+		
+		if (countDown_ > 2)
+		{
+			disappearBackground.alpha.animateTo(0, 0.5);
+		}
 		
 		//if ( turnLeft_ ) {
 			//this.car_.rotate -= dt * ROT_SPEED;
