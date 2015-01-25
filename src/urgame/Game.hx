@@ -129,6 +129,8 @@ class Game
 	}
 	
 	public function page_title() : Entity {
+		Kernel.instance().pack.getSound( "audio/title" ).play();
+		
 		var scene : Entity = new Entity().add( new Scene() );
 		
 		{
@@ -138,7 +140,7 @@ class Game
 			image.centerAnchor();
 			e.add( image );
 			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 + 200;
+			image.y._ = System.stage.height / 2 + 160;
 			
 			scene.addChild( e );
 		}
@@ -171,6 +173,8 @@ class Game
 	}
 	
 	public function page_stage_1() : Entity {
+		Kernel.instance().pack.getSound( "audio/background" ).play();
+		
 		var scene : Entity = new Entity().add( new Scene() );
 		
 		{
