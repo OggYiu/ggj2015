@@ -37,6 +37,9 @@ import page.GamePage_Main;
 import page.GamePage_Stage_1;
 import page.GamePage_Battle;
 import page.GamePage_Car;
+import page.GamePage_Start;
+import page.GamePage_Before_Battle;
+import page.GamePage_End;
 
 /**
  * ...
@@ -52,7 +55,7 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_title, page_stage_1, page_car, page_battle, page_end];
+		pages_ = [page_title, page_start, page_stage_1, page_car, page_before_battle, page_battle, page_end];
 		gotoNextPage();
 	}
 	
@@ -88,11 +91,43 @@ class Game
 		
 		{
 			var e : Entity = new Entity();
+			
+			var page : GamePage_End = new GamePage_End( e );
+			e.add( page );
+			
+			/*
 			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "final" ) );
 			image.centerAnchor();
 			image.x._ = System.stage.width / 2;
 			image.y._ = System.stage.height / 2;
 			e.add( image );
+			*/
+			
+			scene.addChild( e );
+		}
+		
+		return scene;
+	}
+	
+	public function page_before_battle() : Entity {
+		var scene : Entity = new Entity().add( new Scene() );
+		{
+			var e : Entity = new Entity();
+			var page : GamePage_Before_Battle = new GamePage_Before_Battle( e );
+			e.add( page );
+			
+			scene.addChild( e );
+		}
+		
+		return scene;
+	}
+	
+	public function page_start() : Entity {
+		var scene : Entity = new Entity().add( new Scene() );
+		{
+			var e : Entity = new Entity();
+			var page : GamePage_Start = new GamePage_Start( e );
+			e.add( page );
 			
 			scene.addChild( e );
 		}
