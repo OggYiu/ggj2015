@@ -51,7 +51,7 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_battle, page_stage_1, page_car, page_main, page_find];
+		pages_ = [page_stage_1, page_battle, page_car, page_main, page_find];
 		gotoNextPage();
 	}
 	
