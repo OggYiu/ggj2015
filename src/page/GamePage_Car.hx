@@ -27,10 +27,10 @@ class GamePage_Car extends GamePage
 	private static var MOVE_SPEED : Float = 100;
 	private static var MAX_SPEED : Float = 1000;
 
-	private static var controllerStartX : Float = 100;
-	private static var controllerStartY : Float = 100;
-	private static var bound1 : Float = 223 + controllerStartX;
-	private static var bound2 : Float = 433 + controllerStartY;
+	//private static var controllerStartX : Float = 100;
+	//private static var controllerStartY : Float = 100;
+	private static var bound1 : Float = 233;
+	private static var bound2 : Float = 373;
 				
 	private var car_ : GameEntity = null;
 	private var cake_ : GameEntity = null;
@@ -146,31 +146,45 @@ class GamePage_Car extends GamePage
 	}
 	
 	private function initRScreen() : Void {
+		
+		
+		var background = new ImageSprite(pack.getTexture("3/3_right_background"));
+		background.x._ = x2();
+		background.y._ = y2();
+		this.entityLayer.addChild(new Entity().add(background));
+		
+		
+		
+		
 		// circle button
-		var startX : Float = 150;
-		var startY : Float = 150;
+		var startX : Float = 165;
+		var startY : Float = 300;
 		
 		{
 			{
 				var e : Entity = new Entity();
+				
+				/*
 				var circleButtonBase : ImageSprite = new ImageSprite( this.pack.getTexture( "circleButtonBase" ) );
 				circleButtonBase.centerAnchor();
 				e.add( circleButtonBase );
 				this.entityLayer.addChild( e );
 				circleButtonBase.x._ = x2() + startX;
 				circleButtonBase.y._ = y2() + startY;
+				*/
+				
 				
 				var e : Entity = new Entity();
-				circleButton_ = new ImageSprite( this.pack.getTexture( "circleButton" ) );
+				circleButton_ = new ImageSprite( this.pack.getTexture( "3/3_right_knob" ) );
 				e.add( circleButton_ );
 				this.entityLayer.addChild( e );
 				circleButton_.centerAnchor();
-				circleButton_.x._ = circleButtonBase.x._;
-				circleButton_.y._ = circleButtonBase.y._;
+				circleButton_.x._ = x2() + startX;
+				circleButton_.y._ = y2() + startY;
 				
 				function onRot( e : PointerEvent ) {
-					var p1x : Float = circleButtonBase.x._;
-					var p1y : Float = circleButtonBase.y._;
+					var p1x : Float = x2() + startX;
+					var p1y : Float = y2() + startY;
 					var p2x : Float = e.viewX;
 					var p2y : Float = e.viewY;
 					var deltaX : Float = p2x - p1x;
@@ -180,8 +194,8 @@ class GamePage_Car extends GamePage
 					this.car_.rotate = circleButton_.rotation._ = angleInDegrees;
 				}
 				
-				this.disposer.add( circleButtonBase.pointerDown.connect( onRot ) );
-				this.disposer.add( circleButtonBase.pointerMove.connect( onRot ) );
+				//this.disposer.add( circleButtonBase.pointerDown.connect( onRot ) );
+				//this.disposer.add( circleButtonBase.pointerMove.connect( onRot ) );
 				this.disposer.add( circleButton_.pointerDown.connect( onRot ) );
 				this.disposer.add( circleButton_.pointerMove.connect( onRot ) );
 			}
@@ -189,20 +203,21 @@ class GamePage_Car extends GamePage
 		
 		// controller button
 		{
-			
+			/*
 			{
 				this.entityLayer.addChild( new Entity().add( controller1 = new ImageSprite( this.pack.getTexture( "controller1" ) ) ) );
 				controller1.centerAnchor();
 				controller1.x._ = x2() + this.pageWidth() / 2 + controllerStartX;
 				controller1.y._ = y2() + this.pageHeight() / 2 + controllerStartY;
 			}
+			*/
 			
 			{
 				var text : TextSprite;
 				this.overlay.addChild( new Entity().add( text = new TextSprite( this.font, "" ) ) );
-				this.entityLayer.addChild( new Entity().add( controller1Button = new ImageSprite( this.pack.getTexture( "controller1_button" ) ) ) );
+				this.entityLayer.addChild( new Entity().add( controller1Button = new ImageSprite( this.pack.getTexture( "3/3_right_roller" ) ) ) );
 				//controller1Button.centerAnchor();
-				controller1Button.x._ = 826.5 + controllerStartX;
+				controller1Button.x._ = 896.5;
 				controller1Button.y._ = bound1 + ( bound2 - bound1 ) / 2;
 				text.x._ = controller1Button.x._;
 				text.y._ = controller1Button.y._ + 250;
