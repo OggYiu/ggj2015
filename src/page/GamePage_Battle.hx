@@ -1,4 +1,5 @@
 package page ;
+import flambe.script.CallFunction;
 import format.tools.Image;
 import hxcollision.CollisionData;
 import urgame.Game;
@@ -42,8 +43,8 @@ class GamePage_Battle extends GamePage
 	private var moveKeyDown1_ : Bool = false;
 	private var moveKeyUp2_ : Bool = false;
 	private var moveKeyDown2_ : Bool = false;
-	private var player1Hp_ : Int = 10;
-	private var player2Hp_ : Int = 10;
+	private var player1Hp_ : Int = 20;
+	private var player2Hp_ : Int = 20;
 	
 	public function new(l_parent:Entity) 
 	{
@@ -288,10 +289,29 @@ class GamePage_Battle extends GamePage
 							gameEnd( this.player1 );
 						}
 						
-						//{
-							//var e : Entity = new Entity();
-							//var image : ImageSprite = new ImageSprite
-						//}
+						{
+							var e : Entity = new Entity();
+							var image : ImageSprite = new ImageSprite( this.pack.getTexture( "4/4_explode1" ) );
+							image.centerAnchor();
+							image.x._ = collisionBox.x;
+							image.y._ = collisionBox.y;
+							image.setScaleXY( 0, 0 );
+							var script : Script = new Script();
+							script.run(
+								new Sequence([
+									new Parallel([
+										new AnimateTo( image.scaleX, 2, 1, Ease.circIn ),
+										new AnimateTo( image.scaleY, 2, 1, Ease.circIn ),
+										new AnimateTo( image.alpha, 0, 1, Ease.circIn )]),
+									new CallFunction( function() : Void {
+										image.owner.dispose();
+									})])
+							);
+							e.add( script );
+							image.alpha.animateTo( 0, 1 );
+							e.add( image );
+							this.entityLayer.addChild( e );
+						}
 					}
 				}
 			} );

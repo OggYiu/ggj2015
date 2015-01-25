@@ -47,6 +47,7 @@ class GamePage_Car extends GamePage
 	private var circleButton_ : ImageSprite = null;
 	private var countDown_ : Float  = 0;
 	private var won_ : Bool = false;
+	private var gameStarted_ : Bool = false;
 	//private var disposer_ : Disposer = null;
 	
 	public function new(l_parent:Entity) 
@@ -61,8 +62,8 @@ class GamePage_Car extends GamePage
 		initRScreen();
 		initLScreen();
 		
-		var fpsMeterEntity = new Entity().add(new TextSprite(this.font)).add(new FpsDisplay());
-		this.overlay.addChild( fpsMeterEntity );
+		//var fpsMeterEntity = new Entity().add(new TextSprite(this.font)).add(new FpsDisplay());
+		//this.overlay.addChild( fpsMeterEntity );
 	}
 	
 	private function initLScreen() : Void {
@@ -115,14 +116,14 @@ class GamePage_Car extends GamePage
 			
 			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "3/bloodHead" ) );
 			e.add( image );
-			image.x._ = x1() + Math.random() * this.pageWidth();
-			image.y._ = y1() + Math.random() * this.pageHeight();
+			image.x._ = x1() + image.getNaturalWidth() + Math.random() * ( this.pageWidth() - image.getNaturalWidth() );
+			image.y._ = y1() + image.getNaturalHeight() + Math.random() * ( this.pageHeight() - image.getNaturalHeight() );
 			
 			{
 				var e1 : Entity = new Entity();
 				var imageBody : ImageSprite = new ImageSprite( this.pack.getTexture( "3/3_blood" ) );
 				e1.add( imageBody );
-				imageBody.x._ = image.x._ - 110;
+				imageBody.x._ = image.x._ - 50;
 				imageBody.y._ = image.y._ - 76;
 				this.entityLayer.addChild( e1 );
 			}
@@ -131,6 +132,10 @@ class GamePage_Car extends GamePage
 			collisionBox.createCircle( image.getNaturalWidth() / 2 );
 			this.disposer.add( collisionBox.collide.connect( function( collisionBox : CollisionBox, data : CollisionData ) {
 				if ( won_ ) {
+					return;
+				}
+				
+				if ( !gameStarted_ ) {
 					return;
 				}
 				
@@ -315,8 +320,8 @@ class GamePage_Car extends GamePage
 			var image : ImageSprite = new ImageSprite( this.pack.getTexture( names[randIndex] ) );
 			e.add( image );
 			
-			image.x._ = Math.random() * ( x1() + this.pageWidth() );
-			image.y._ = Math.random() * ( y1() + this.pageHeight() );
+			image.x._ = x1() + image.getNaturalWidth() + Math.random() * ( this.pageWidth() - image.getNaturalWidth() );
+			image.y._ = y1() + image.getNaturalHeight() + Math.random() * ( this.pageHeight() - image.getNaturalHeight() );
 			
 			{
 				var e1 : Entity = new Entity();
@@ -337,6 +342,10 @@ class GamePage_Car extends GamePage
 			collisionBox.isStatic = true;
 			this.disposer.add( collisionBox.collide.connect( function( other : CollisionBox, collisionData : CollisionData ) {
 				if ( won_ ) {
+					return;
+				}
+				
+				if ( !gameStarted_ ) {
 					return;
 				}
 				
@@ -366,6 +375,8 @@ class GamePage_Car extends GamePage
 	
 	override public function onUpdate(dt:Float) 
 	{
+		gameStarted_ = true;
+		
 		countDown_ += dt;
 		super.onUpdate(dt);
 		
