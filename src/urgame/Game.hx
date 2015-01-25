@@ -19,6 +19,7 @@ import flambe.script.AnimateTo;
 import flambe.script.CallFunction;
 import flambe.script.Delay;
 import flambe.script.Parallel;
+import flambe.script.Repeat;
 import flambe.script.Script;
 import flambe.script.Sequence;
 import flambe.script.Shake;
@@ -78,7 +79,6 @@ class Game
 	}
 	
 	private function gotoPage( demoIndex : Int ) : Void {
-		//trace( "go to page : " + demoIndex );
 		Kernel.instance().pack.getSound( "audio/cheers" ).play();
 		Kernel.instance().goto( pages_[demoIndex](), transitToLeft_ );
 	}
@@ -136,12 +136,10 @@ class Game
 		{
 			var e : Entity = new Entity();
 			
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/eggman_full" ) );
-			image.centerAnchor();
+			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home" ) );
 			e.add( image );
-			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 + 160;
-			
+			image.scaleX._ = System.stage.width / image.getNaturalWidth();
+			image.scaleY._ = System.stage.height / image.getNaturalHeight();
 			scene.addChild( e );
 		}
 		
@@ -151,23 +149,44 @@ class Game
 			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home_blink1" ) );
 			image.centerAnchor();
 			e.add( image );
-			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 - 200;
+			image.x._ = System.stage.width / 2 + 300;
+			image.y._ = System.stage.height / 2 - 150;
 			
 			scene.addChild( e );
+			
+			var index : Int = 0;
+				
+			var script : Script = new Script();
+				script.run(
+					new Repeat(
+						new Sequence([
+							new CallFunction( function() : Void {
+								if ( index == 0 ) {
+									image.texture = Kernel.instance().pack.getTexture( "title/home_blink2" );
+									index = 1;
+								} else {
+									image.texture = Kernel.instance().pack.getTexture( "title/home_blink1" );
+									index = 0;
+								}
+							} ),
+							new Delay( 0.5 )]
+						)
+					));
+			e.add(script);
+			
 		}
 		
-		{
-			var e : Entity = new Entity();
-			
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home_blink2" ) );
-			image.centerAnchor();
-			e.add( image );
-			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 - 200;
-			
-			scene.addChild( e );
-		}
+		//{
+			//var e : Entity = new Entity();
+			//
+			//var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home_blink2" ) );
+			//image.centerAnchor();
+			//e.add( image );
+			//image.x._ = System.stage.width / 2 + 300;
+			//image.y._ = System.stage.height / 2 - 150;
+			//
+			//scene.addChild( e );
+		//}
 		
 		return scene;
 	}
