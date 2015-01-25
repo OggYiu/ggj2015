@@ -259,13 +259,19 @@ class GamePage_Car extends GamePage
 	}
 	
 	private function addObstacle( l_number : Int ) : Void {
+		var names : Array<String> = [	"3/3_blood",
+										"3/3_car",
+										"3/3_heart",
+										"3/3_tiger",
+										"3/3_soilder_withsword" ];
 		for ( i in 0 ... l_number ) {
 			var e : Entity = new Entity();
 			
 			var ge : GameEntity = new GameEntity();
 			e.add( ge );
 			
-			var image : ImageSprite = new ImageSprite( this.pack.getTexture( "tree1" ) );
+			var randIndex : Int = Math.round( Math.random() * ( names.length - 1 ) );
+			var image : ImageSprite = new ImageSprite( this.pack.getTexture( names[randIndex] ) );
 			e.add( image );
 			
 			image.x._ = Math.random() * ( x1() + this.pageWidth() );

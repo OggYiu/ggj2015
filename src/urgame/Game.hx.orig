@@ -51,7 +51,11 @@ class Game
 	}
 	
 	public function create() : Void {
-		pages_ = [page_title, page_stage_1, page_car, page_battle, page_end];
+<<<<<<< HEAD
+		pages_ = [page_title, page_car, page_stage_1, page_battle, page_end];
+=======
+		pages_ = [page_stage_1, page_battle, page_car, page_main, page_find];
+>>>>>>> 79fda672069934c54011fea8a0c2199b4b9912e5
 		gotoNextPage();
 	}
 	
@@ -88,7 +92,7 @@ class Game
 		
 		{
 			var e : Entity = new Entity();
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "final" ) );
+			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "5-final" ) );
 			image.centerAnchor();
 			image.x._ = System.stage.width / 2;
 			image.y._ = System.stage.height / 2;
@@ -134,35 +138,11 @@ class Game
 		{
 			var e : Entity = new Entity();
 			
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/eggman_full" ) );
+			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "eggman_full" ) );
 			image.centerAnchor();
 			e.add( image );
 			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 + 200;
-			
-			scene.addChild( e );
-		}
-		
-		{
-			var e : Entity = new Entity();
-			
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home_blink1" ) );
-			image.centerAnchor();
-			e.add( image );
-			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 - 200;
-			
-			scene.addChild( e );
-		}
-		
-		{
-			var e : Entity = new Entity();
-			
-			var image : ImageSprite = new ImageSprite( Kernel.instance().pack.getTexture( "title/home_blink2" ) );
-			image.centerAnchor();
-			e.add( image );
-			image.x._ = System.stage.width / 2;
-			image.y._ = System.stage.height / 2 - 200;
+			image.y._ = System.stage.height / 2;
 			
 			scene.addChild( e );
 		}

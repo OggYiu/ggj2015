@@ -1,4 +1,5 @@
 package page ;
+import format.tools.Image;
 import hxcollision.CollisionData;
 import urgame.Game;
 
@@ -286,6 +287,11 @@ class GamePage_Battle extends GamePage
 						if ( player2Hp_ <= 0 ) {
 							gameEnd( this.player1 );
 						}
+						
+						//{
+							//var e : Entity = new Entity();
+							//var image : ImageSprite = new ImageSprite
+						//}
 					}
 				}
 			} );
